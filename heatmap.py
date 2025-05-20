@@ -7,9 +7,13 @@ import json
 
 
 #jsonファイルの読み込み
-with open("trajectoties.json", "r", encoding="utf-8") as f:
-    data = json.load(f)
+# with open("stop_trajectoties  .json", "r", encoding="utf-8") as f:
+# with open("trajectoties.json", "r", encoding="utf-8") as f:
+# with open("raw_0514.json", "r", encoding="utf-8") as f:
+with open("raw_0515.json", "r", encoding="utf-8") as f:
+# with open("raw_0511.json", "r", encoding="utf-8") as f:
     
+    data = json.load(f)
 
 ## estimatedデータをフラットに抽出
 estimated_points = []

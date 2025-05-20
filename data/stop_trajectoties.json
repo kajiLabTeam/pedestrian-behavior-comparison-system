@@ -1,0 +1,57 @@
+{
+	"trajectories": [
+		{
+			"id": "01JET1DV4WJ2EP78B8HAKK5SP0",
+			"estimated": [
+				{
+					"id": "01JHC48E1N9YHBPT9GFE3NFTN2",
+					"x": 710,
+					"y": 300,
+					"walked_at": "2025-03-24T09:52:30.382989Z"
+				},
+				{
+					"id": "01JHC48E1N9YHBPT9GFE3NFTN3",
+					"x": 710,
+					"y": 300,
+					"walked_at": "2025-03-24T09:52:31.382989Z"
+				},
+				{
+					"id": "01JHC48E1P9GEGAPN2J4GWSHFC",
+					"x": 1250,
+					"y": 300,
+					"walked_at": "2025-03-24T09:52:40.382989Z"
+				},
+				{
+					"id": "01JHC48E1P9GEGAPN2J4GWSHFD",
+					"x": 1250,
+					"y": 300,
+					"walked_at": "2025-03-24T09:52:41.382989Z"
+				},
+				{
+					"id": "01JHC48E1PK7E76BVRRT43ZVMH",
+					"x": 2650,
+					"y": 350,
+					"walked_at": "2025-03-24T09:53:00.382989Z"
+				},
+				{
+					"id": "01JHC48E1PK7E76BVRRT43ZVMJ",
+					"x": 2650,
+					"y": 350,
+					"walked_at": "2025-03-24T09:53:01.382989Z"
+				},
+				{
+					"id": "01JHC48E1P40CV2RNEK4EN592K",
+					"x": 2650,
+					"y": 1100,
+					"walked_at": "2025-03-24T09:53:30.382989Z"
+				},
+				{
+					"id": "01JHC48E1P40CV2RNEK4EN592L",
+					"x": 2650,
+					"y": 1100,
+					"walked_at": "2025-03-24T09:53:31.382989Z"
+				}
+			]
+		}
+	]
+}
