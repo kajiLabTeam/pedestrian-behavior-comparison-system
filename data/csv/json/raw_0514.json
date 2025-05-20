@@ -1,0 +1,56 @@
+{
+	"trajectories": [
+		{
+			"estimated": [
+				{
+					"id": "01JV6MECTTBMX4XXP2MVYHCGGR",
+					"x": 2028,
+					"y": 1449,
+					"walked_at": "2025-05-14T05: 31: 53.03602Z"
+				},
+				{
+					"id": "01JV6MECTT8GBQXN2KEG5RAXAK",
+					"x": 2028,
+					"y": 1447,
+					"walked_at": "2025-05-14T05:31:53.03602Z"
+				},
+				{
+					"id": "01JV6MECTT3A2WPGFX1PVXA84J",
+					"x": 2027,
+					"y": 1447,
+					"walked_at": "2025-05-14T05:31:53.03602Z"
+				},
+				{
+					"id": "01JV6MECTV201V7VPQKSPQ7B2Z",
+					"x": 2029,
+					"y": 1444,
+					"walked_at": "2025-05-14T05:31:53.03602Z"
+				},
+				{
+					"id": "01JV6MECTV0X91Y90HPDMK2VG9",
+					"x": 2027,
+					"y": 1447,
+					"walked_at": "2025-05-14T05:31:53.03602Z"
+				},
+				{
+					"id": "01JV6MECTV3VMA8NG58D3VS3ZW",
+					"x": 2037,
+					"y": 1448,
+					"walked_at": "2025-05-14T05:31:53.03602Z"
+				},
+				{
+					"id": "01JV6MECTVJD593KDGSR73P0TS",
+					"x": 2033,
+					"y": 1446,
+					"walked_at": "2025-05-14T05:31:53.03602Z"
+				},
+				{
+					"id": "01JV6MECTW0HQD4PXPM8GNHYKV",
+					"x": 2027,
+					"y": 1446,
+					"walked_at": "2025-05-14T05:31:53.03602Z"
+				}
+			]
+		}
+	]
+}
