@@ -2,10 +2,11 @@ import math
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import japanize_matplotlib
+
 
 # CSVファイルを読み込み
-# df = pd.read_csv("data/csv/0519.csv")
-df = pd.read_csv("data/csv/0519.csv")
+df = pd.read_csv("walking_trajectory.csv")
 
 # 必要な列があるか確認
 if not set(['x', 'y', 'time']).issubset(df.columns):
@@ -35,17 +36,15 @@ result_df.to_csv(output_csv, index=False)
 # 結果を表示
 print(result_df)
 
-
 # 時間も1行目を除いて整形（速度と対応する時間）
 time = df['time'][1:].reset_index(drop=True)
 
 # グラフ描画
-# グラフ描画
 plt.figure(figsize=(10, 5))
-plt.plot(time, speed, marker='o', linestyle='-', color='blue', label='Speed (m/s)')
-plt.xlabel('Time (s)')
-plt.ylabel('Speed (m/s)')
-plt.title('Walking Speed Over Time')
+plt.plot(time, speed, marker='o', linestyle='-', color='blue', label='速さ (m/s)')
+plt.xlabel('時間 (s)')
+plt.ylabel('速さ (m/s)')
+plt.title('歩行速度')
 plt.grid(True)
 plt.legend()
 
