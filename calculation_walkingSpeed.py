@@ -6,7 +6,7 @@ import japanize_matplotlib
 
 
 # CSVファイルを読み込み
-df = pd.read_csv("walking_trajectory.csv")
+df = pd.read_csv("0527walking_trajectory.csv")
 
 # 必要な列があるか確認
 if not set(['x', 'y', 'time']).issubset(df.columns):
