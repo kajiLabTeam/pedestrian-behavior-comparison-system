@@ -46,7 +46,7 @@ time = df['time'][1:].reset_index(drop=True)
 
 # グラフ描画
 plt.figure(figsize=(10, 5))
-plt.plot(time, speed, marker='o', linestyle='-', color='blue', label='速さ (m/s)')
+plt.plot(time, speed, marker='o', linestyle='-', color='blue', label='(x,y)')
 plt.xlabel('時間 (s)')
 plt.ylabel('速さ (m/s)')
 plt.title('歩行速度')
