@@ -2,6 +2,7 @@
 from setup_grid_and_background import setup_grid_and_background
 from load_trajectory_data import load_trajectory_data
 from transform_trajectory import transform_trajectory
+from calculate_stay_time import calculate_stay_time
 
 from PIL import Image, ImageDraw, ImageFont
 import	numpy as np
@@ -54,13 +55,14 @@ if __name__ == '__main__':
 		MAP_HEIGHT_PX
     )
     
-    # # 滞在時間の計算
-    # stay_times = calculate_stay_time(
-    #     df_transformed,
-    #     GRID_SIZE_PX,
-    #     MAP_WIDTH_PX,
-    #     MAP_HEIGHT_PX
-    # )
+    # 滞在時間の計算
+    
+    stay_times = calculate_stay_time(
+		df_trajectory,
+		MAP_WIDTH_PX,   # マップ幅を追加
+		MAP_HEIGHT_PX,  # マップ高さを追加
+		GRID_SIZE_PX    # グリッドサイズを追加
+    )
     
     # # 結果の可視化と保存
     # visualize_and_save_heatmap(

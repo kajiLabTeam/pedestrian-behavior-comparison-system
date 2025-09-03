@@ -35,8 +35,7 @@ def setup_grid_and_background(map_width_px, map_height_px, grid_size_px):
             center_x = x * grid_size + grid_size / 2
             center_y = y * grid_size + grid_size / 2
             grid_id_tuple = (x, y)
-            draw.text((center_x, center_y), f"({x},{y})", fill ='black',
-                    anchor='mm', font=font)
+            draw.text((center_x, center_y), f"({x},{y})", fill ='black',anchor='mm', font=font)
 
             # グリッドの情報を辞書として保存
             grid_info = {

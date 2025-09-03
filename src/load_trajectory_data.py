@@ -23,6 +23,6 @@ def load_trajectory_data(file_path):
 	plt.ylabel('y [m]')
 	plt.grid(True)
 	plt.legend()  # 凡例を表示
-	plt.show()
+	# plt.show()
 	return df_trajectory
 

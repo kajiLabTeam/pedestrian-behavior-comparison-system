@@ -44,6 +44,6 @@ def transform_trajectory(df_trajectory, scale, correct_angle, initial_position, 
 	plt.xlabel('幅[px]', fontsize=18)
 	plt.ylabel('高さ[px]', fontsize=18)
 	plt.legend(fontsize=16)
-	plt.show()
+	# plt.show()
 
 	return df_trajectory
