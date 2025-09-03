@@ -1,11 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def load_trajectory_data(file_path):
 
-
-	trajectory_file_path = "./data/threshold_trajectory_data.csv"
-	df_trajectory = pd.read_csv(trajectory_file_path)
+def load_trajectory_data(file_path):	
+	df_trajectory = pd.read_csv(file_path)
 
 	# 描画
 	plt.subplots_adjust(hspace=0.3)
@@ -25,6 +23,6 @@ def load_trajectory_data(file_path):
 	plt.ylabel('y [m]')
 	plt.grid(True)
 	plt.legend()  # 凡例を表示
-
+	plt.show()
 	return df_trajectory
 
