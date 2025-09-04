@@ -16,27 +16,31 @@ def visualize_and_save_heatmap(stay_time_per_grid, background_img, num_grids_x, 
         output_path (str): 保存する画像のパス
     """
     print(f"\n--- ヒートマップの可視化と保存: {output_path} ---")
-    heatmap_data = np.zeros((num_grids_y, num_grids_x))
-    
-      # forループを以下のように修正
-    for grid_id, total_time in stay_time_per_grid.items():
-        # grid_idが2つの要素を持つタプルであるかを確認
-        if isinstance(grid_id, tuple) and len(grid_id) == 2:
-            # このチェックを通過すれば、安全にアンパックできる
-            col, row = grid_id
+
+    #   # forループを以下のように修正
+    # for grid_id, total_time in stay_time_per_grid.items():
+    #     # grid_idが2つの要素を持つタプルであるかを確認
+    #     if isinstance(grid_id, tuple) and len(grid_id) == 2:
+    #         # このチェックを通過すれば、安全にアンパックできる
+    #         col, row = grid_id
             
-            # 範囲内の場合のみデータを更新
-            if 0 <= row < num_grids_y and 0 <= col < num_grids_x:
-                heatmap_data[row, col] = total_time
-        else:
-            # 予期せぬ形式のgrid_id（Noneなど）を無視し、警告を表示する
-            print(f"範囲外または予期せぬgrid_idをスキップしました: {grid_id}")
+    #         # 範囲内の場合のみデータを更新
+    #         if 0 <= row < num_grids_y and 0 <= col < num_grids_x:
+    #             heatmap_data[row, col] = total_time
+    #     else:
+    #         # 予期せぬ形式のgrid_id（Noneなど）を無視し、警告を表示する
+    #         print(f"範囲外または予期せぬgrid_idをスキップしました: {grid_id}")
 
 
     fig, ax = plt.subplots(figsize=(10,10), dpi=100)
     ax.imshow(background_img, extent=[0, map_width_px, map_height_px, 0])
-    
-    heatmap = ax.imshow(heatmap_data, cmap='rainbow', alpha=0.6, extent=[0, map_width_px, map_height_px, 0])
+
+    heatmap = ax.imshow(
+        stay_time_per_grid, 
+        cmap='rainbow', 
+        alpha=0.6, 
+        extent=[0, map_width_px, map_height_px, 0],
+    )
     
     cbar = fig.colorbar(heatmap, ax=ax)
     cbar.set_label('滞在時間 [s]', fontsize=10)

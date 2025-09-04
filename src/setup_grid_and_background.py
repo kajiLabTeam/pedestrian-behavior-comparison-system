@@ -53,6 +53,6 @@ def setup_grid_and_background(map_width_px, map_height_px, grid_size_px):
             }
             grid_data.append(grid_info)
 
-    img.show()
+    # img.show()
             
     return img, grid_data, num_grids_x, num_grids_y
