@@ -27,7 +27,13 @@ def setup_grid_and_background(map_width_px, map_height_px, grid_size_px):
 
     # 4. 各グリッドにIDを割り振って描画
     grid_data = []
-    font = ImageFont.load_default()
+
+    try:
+        font_path = "/System/Library/Fonts/Supplemental/Arial.ttf"
+        font = ImageFont.truetype(font_path, size=30)
+    except IOError:
+        print("指定のフォントが見つかりませんでした。デフォルトフォントを使用します。")
+        font = ImageFont.load_default()
       
     for y in range(num_grids_y):
         for x in range(num_grids_x):
@@ -35,7 +41,7 @@ def setup_grid_and_background(map_width_px, map_height_px, grid_size_px):
             center_x = x * grid_size + grid_size / 2
             center_y = y * grid_size + grid_size / 2
             grid_id_tuple = (x, y)
-            draw.text((center_x, center_y), f"({x},{y})", fill ='black',anchor='mm', font=font)
+            draw.text((center_x, center_y), f"({x},{y})", fill ='black',anchor='mm', fontsize=100, font=font)
 
             # グリッドの情報を辞書として保存
             grid_info = {
@@ -46,8 +52,7 @@ def setup_grid_and_background(map_width_px, map_height_px, grid_size_px):
                 'y_max': (y + 1) * grid_size
             }
             grid_data.append(grid_info)
-    
-    print(f"グリッド数: 横={num_grids_x}, 縦={num_grids_y}")
-    print("--- セットアップ完了 ---")
-    
+
+    img.show()
+            
     return img, grid_data, num_grids_x, num_grids_y

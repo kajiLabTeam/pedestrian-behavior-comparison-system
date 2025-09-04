@@ -39,10 +39,10 @@ def visualize_and_save_heatmap(stay_time_per_grid, background_img, num_grids_x, 
     heatmap = ax.imshow(heatmap_data, cmap='rainbow', alpha=0.6, extent=[0, map_width_px, map_height_px, 0])
     
     cbar = fig.colorbar(heatmap, ax=ax)
-    cbar.set_label('滞在時間 [s]', fontsize=18)
-    ax.set_title('各グリッドにおける滞在時間のヒートマップ', fontsize=24)
-    ax.set_xlabel('幅[px]', fontsize=18)
-    ax.set_ylabel('高さ[px]', fontsize=18)
+    cbar.set_label('滞在時間 [s]', fontsize=10)
+    ax.set_title('各グリッドにおける滞在時間のヒートマップ', fontsize=10)
+    ax.set_xlabel('幅[px]', fontsize=10)
+    ax.set_ylabel('高さ[px]', fontsize=10)
     ax.set_xlim(0, map_width_px)
     ax.set_ylim(map_height_px, 0)
 

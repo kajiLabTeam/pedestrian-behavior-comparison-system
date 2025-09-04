@@ -21,11 +21,7 @@ if __name__ == '__main__':
     # 2. 背景画像とグリッド情報を準備
     background_image, grid_data, num_grids_x, num_grids_y = setup_grid_and_background(
         MAP_WIDTH_PX, MAP_HEIGHT_PX, GRID_SIZE_PX
-    )
-    
-    print("画像を表示します。")
-    background_image.show()
-    
+    )    
     
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
     TRAJECTORY_FILE_PATH = "./grid/data/threshold_trajectory_data.csv"
