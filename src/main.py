@@ -24,45 +24,61 @@ if __name__ == '__main__':
     )    
     
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
-    TRAJECTORY_FILE_PATH = "./grid/data/threshold_trajectory_data.csv"
-    
+    TRAJECTORY_FILE_PATHS = [
+        "./grid/data/threshold_trajectory_data.csv",
+        "./slowly/data/threshold_trajectory_data.csv",
+	] 
     # 座標変換パラメータ
-    TRANSFORM_PARAMS = {
-        'scale': 1.0,         #x 1mあたり1pxに変換
-        'angle_deg': 180.0,     # 180度回転
-        'initial_position': (14, 21) # 軌跡の開始地点
-    }
+    TRANSFORM_PARAMS_LIST = [
+		{
+			'scale': 1.0,         #x 1mあたり1pxに変換
+			'angle_deg': 180.0,     # 180度回転
+			'initial_position': (14, 21) # 軌跡の開始地点
+		},
+        {
+			'scale': 1.0,         #x 1mあたり1pxに変換
+			'angle_deg': 180.0,     # 180度回転
+			'initial_position': (14, 21) # 軌跡の開始
+		}
+    ]
     
     OUTPUT_IMAGE_PATH = "./grid/output/heatmap_result.png"
 
-    # # 4. 一連の処理を実行
-    # # 軌跡データの読み込み
-    df_trajectory = load_trajectory_data(TRAJECTORY_FILE_PATH)
     
-    # # 座標変換
-    df_transformed = transform_trajectory(
-        df_trajectory,
-        TRANSFORM_PARAMS['scale'],
-        TRANSFORM_PARAMS['angle_deg'],
-        TRANSFORM_PARAMS['initial_position'],
-        grid_data,
-        GRID_SIZE_PX,
-        background_image,
-		MAP_WIDTH_PX,
-		MAP_HEIGHT_PX
-    )
+    ##  全軌跡の滞在時間を合算するための配列をゼロで初期化
+    total_stay_times = np.zeros((num_grids_y, num_grids_x))
     
-    # 滞在時間の計算
-    stay_times = calculate_stay_time(
-		df_transformed,
-        GRID_SIZE_PX,
-		MAP_WIDTH_PX,   # マップ幅を追加
-		MAP_HEIGHT_PX,  # マップ高さを追加
-    )
+	for file_path, transform_params in zip(TRAJECTORY_FILE_PATHS, TRANSFORM_PARAMS_LIST):
+		print(f"Processing file: {file_path} with transform params: {transform_params}")
+		df_trajectory = load_trajectory_data([file_path])
+
+		# # 座標変換
+		df_transformed = transform_trajectory(
+			df_trajectory,
+			transform_params['scale'],
+			transform_params['angle_deg'],
+			transform_params['initial_position'],
+			grid_data,
+			GRID_SIZE_PX,
+			background_image,
+			MAP_WIDTH_PX,
+			MAP_HEIGHT_PX
+		)
+	
+		# 滞在時間の計算
+		stay_times = calculate_stay_time(
+			df_transformed,
+			GRID_SIZE_PX,
+			MAP_WIDTH_PX,   # マップ幅を追加
+			MAP_HEIGHT_PX,  # マップ高さを追加
+		)
+		# ★変更点: 計算した滞在時間を合算
+		total_stay_times += stay_times
+	
     
     # 結果の可視化と保存
     visualize_and_save_heatmap(
-        stay_times,
+        total_stay_times,
         background_image,
         num_grids_x,
         num_grids_y,
