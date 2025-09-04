@@ -3,6 +3,7 @@ from setup_grid_and_background import setup_grid_and_background
 from load_trajectory_data import load_trajectory_data
 from transform_trajectory import transform_trajectory
 from calculate_stay_time import calculate_stay_time
+from visualize_and_save_heatmap import visualize_and_save_heatmap
 
 from PIL import Image, ImageDraw, ImageFont
 import	numpy as np
@@ -36,7 +37,7 @@ if __name__ == '__main__':
         'initial_position': (14, 21) # 軌跡の開始地点
     }
     
-    OUTPUT_IMAGE_PATH = "output/heatmap_result.png"
+    OUTPUT_IMAGE_PATH = "./grid/output/heatmap_result.png"
 
     # # 4. 一連の処理を実行
     # # 軌跡データの読み込み
@@ -56,21 +57,20 @@ if __name__ == '__main__':
     )
     
     # 滞在時間の計算
-    
     stay_times = calculate_stay_time(
-		df_trajectory,
+		df_transformed,
+        GRID_SIZE_PX,
 		MAP_WIDTH_PX,   # マップ幅を追加
 		MAP_HEIGHT_PX,  # マップ高さを追加
-		GRID_SIZE_PX    # グリッドサイズを追加
     )
     
-    # # 結果の可視化と保存
-    # visualize_and_save_heatmap(
-    #     stay_times,
-    #     background_image,
-    #     num_grids_x,
-    #     num_grids_y,
-    #     MAP_WIDTH_PX,
-    #     MAP_HEIGHT_PX,
-    #     OUTPUT_IMAGE_PATH
-    # )
+    # 結果の可視化と保存
+    visualize_and_save_heatmap(
+        stay_times,
+        background_image,
+        num_grids_x,
+        num_grids_y,
+        MAP_WIDTH_PX,
+        MAP_HEIGHT_PX,
+        OUTPUT_IMAGE_PATH
+    )

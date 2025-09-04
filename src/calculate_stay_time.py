@@ -6,21 +6,21 @@ def calculate_stay_time(df_trajectory, grid_size, map_width, map_height):
 	# diff()で前後の行との差を計算し、最初の行はNaNになるため0で埋める
 	df_trajectory['time_diff'] = df_trajectory['time'].diff().fillna(0)
      
-	def find_grid_id(x, y, grid_size_px, map_width_px, map_height_px):
+	def find_grid_id(x, y, grid_size, map_width_px, map_height_px):
 		"""
 		座標(x, y)がどのグリッドIDに属するかを計算する。
 		マップ範囲外の場合は-1を返す。
 		"""
+		print(f"x: {x}, y: {y},grid_size{grid_size}, map_width_px: {map_width_px}, map_height_px: {map_height_px}")
 		if not (0 <= x < map_width_px and 0 <= y < map_height_px):
 			return -1  # マップの範囲外
 		
 		# 座標がどのグリッドの列・行に位置するかを計算
-		grid_col = int(x // grid_size_px)
-		grid_row = int(y // grid_size_px)
+		grid_col = int(x // grid_size)
+		grid_row = int(y // grid_size)
 		
 		return (grid_col, grid_row)
 
-	# 修正後 (正しく動く)
 	df_trajectory['grid_id'] = df_trajectory.apply(
     lambda row: find_grid_id(row['x_final'], row['y_final'], grid_size, map_width, map_height),axis=1)
 	# 'stay'がTrueで、かつ有効なグリッドIDを持つデータのみをフィルタリング
