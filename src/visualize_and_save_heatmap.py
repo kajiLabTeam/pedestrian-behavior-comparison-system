@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-def visualize_and_save_heatmap(stay_time_per_grid, background_img, num_grids_x, num_grids_y, map_width_px, map_height_px, output_path):
+def visualize_and_save_heatmap(stay_time_per_grid, background_img, num_grids_x, num_grids_y, map_width_px, map_height_px, output_path, colorbar_label):
     """
     滞在時間データをヒートマップとして可視化し、画像として保存する。
 
@@ -31,7 +31,6 @@ def visualize_and_save_heatmap(stay_time_per_grid, background_img, num_grids_x, 
     #         # 予期せぬ形式のgrid_id（Noneなど）を無視し、警告を表示する
     #         print(f"範囲外または予期せぬgrid_idをスキップしました: {grid_id}")
 
-
     fig, ax = plt.subplots(figsize=(10,10), dpi=100)
     ax.imshow(background_img, extent=[0, map_width_px, map_height_px, 0])
 
@@ -42,8 +41,8 @@ def visualize_and_save_heatmap(stay_time_per_grid, background_img, num_grids_x, 
         extent=[0, map_width_px, map_height_px, 0],
     )
     
-    cbar = fig.colorbar(heatmap, ax=ax)
-    cbar.set_label('滞在時間 [s]', fontsize=10)
+    # ★引数で受け取ったラベルをカラーバーに設定
+    cbar = fig.colorbar(heatmap, ax=ax, label=colorbar_label, shrink=0.8)
     ax.set_title('各グリッドにおける滞在時間のヒートマップ', fontsize=10)
     ax.set_xlabel('幅[px]', fontsize=10)
     ax.set_ylabel('高さ[px]', fontsize=10)
