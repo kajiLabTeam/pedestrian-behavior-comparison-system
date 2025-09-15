@@ -57,9 +57,7 @@ if __name__ == '__main__':
     # total_stay_times = np.zeros((num_grids_y, num_grids_x))
     # 全軌跡の値を合算するための配列をゼロで初期化
     total_values = np.zeros((num_grids_y, num_grids_x))
-    
-    # 全軌跡の変換後データを格納するためのリスト
-    all_transformed_dfs = []
+        
     
     for file_path, transform_params in zip(TRAJECTORY_FILE_PATHS, TRANSFORM_PARAMS_LIST):
         print(f"Processing file: {file_path} with transform params: {transform_params}")
@@ -80,8 +78,12 @@ if __name__ == '__main__':
 
         print(f"df_transformed'{ df_transformed}")
 
-
-        all_transformed_dfs.append(df_transformed)
+        visualize_trajectory(
+            df=df_transformed,
+            background_image=background_image,
+            map_width=MAP_WIDTH_PX,
+            map_height=MAP_HEIGHT_PX
+        )
 
         if CALCULATION_MODE == 'time':
                 # 滞在時間の計算
@@ -120,11 +122,4 @@ if __name__ == '__main__':
         OUTPUT_IMAGE_PATH,
         colorbar_label=colorbar_label
     )
-    # 5. 全軌跡のプロットと保存
-    print(all_transformed_dfs)
-    visualize_trajectory(
-        all_dfs=all_transformed_dfs,
-        background_image=background_image,
-        map_width=MAP_WIDTH_PX,
-        map_height=MAP_HEIGHT_PX
-    )
+    

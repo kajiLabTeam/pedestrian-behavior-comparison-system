@@ -1,7 +1,8 @@
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 
-def visualize_trajectories(df, background_image, map_width, map_height):
+
+def visualize_trajectory(df, background_image, map_width, map_height):
     """
     複数の軌跡データフレームを結合し、背景画像上にプロットして保存する。
 
@@ -10,7 +11,6 @@ def visualize_trajectories(df, background_image, map_width, map_height):
         background_image (PIL.Image): プロットの背景として使用する画像。
         map_width (int): マップの幅 (ピクセル)。
         map_height (int): マップの高さ (ピクセル)。
-        output_path (str): プロット画像の保存先ファイルパス。
     """
     if df.empty or 'x_final' not in df or 'y_final' not in df:
         print("有効なデータがないため、プロットをスキップします。")
@@ -45,6 +45,6 @@ def visualize_trajectories(df, background_image, map_width, map_height):
     if not stay_true.empty or not stay_false.empty:
         ax.legend(fontsize=12)
 
-    # レイアウトを整えて保存・表示
+    # レイアウトを整えて表示
     fig.tight_layout()
     plt.show()
