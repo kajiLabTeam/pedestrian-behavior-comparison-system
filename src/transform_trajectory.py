@@ -22,7 +22,6 @@ def transform_trajectory(df_trajectory, scale, correct_angle, initial_position, 
 	df_trajectory['x_rotated'] -= df_trajectory['x_rotated'].iloc[0]
 	df_trajectory['y_rotated'] -= df_trajectory['y_rotated'].iloc[0]
 
-	print(df_trajectory[['time','x_rotated','y_rotated']])
 
 	start_grid_info = next(item for item in grid_data if item["id"] == initial_position)
 	offset_x = start_grid_info['x_min'] + grid_size / 2

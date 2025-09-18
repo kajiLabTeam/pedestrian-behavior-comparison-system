@@ -7,13 +7,14 @@ def visualize_trajectory(df, background_image, map_width, map_height):
     複数の軌跡データフレームを結合し、背景画像上にプロットして保存する。
 
     Args:
-        all_dfs (list): 座標変換後の軌跡データフレーム(pd.DataFrame)のリスト。
+        df (list): 座標変換後の軌跡データフレーム(pd.DataFrame)のリスト。
         background_image (PIL.Image): プロットの背景として使用する画像。
         map_width (int): マップの幅 (ピクセル)。
         map_height (int): マップの高さ (ピクセル)。
     """
     if df.empty or 'x_final' not in df or 'y_final' not in df:
         print("有効なデータがないため、プロットをスキップします。")
+
         return
 
     # プロットの準備
@@ -28,6 +29,7 @@ def visualize_trajectory(df, background_image, map_width, map_height):
     stay_false = df_filtered[df_filtered['stay'] == False]
 
  # stayの値で色分けして散布図をプロット
+ 
     if not stay_false.empty:
         ax.scatter(stay_false['x_final'], stay_false['y_final'], 
                    c='blue', s=50, label='stay = False (移動中)', zorder=2, alpha=0.6)
@@ -47,4 +49,5 @@ def visualize_trajectory(df, background_image, map_width, map_height):
 
     # レイアウトを整えて表示
     fig.tight_layout()
+    plt.savefig('output/全軌跡のマッピング結果.png', dpi=300)
     plt.show()

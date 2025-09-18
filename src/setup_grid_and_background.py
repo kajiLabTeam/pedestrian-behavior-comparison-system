@@ -32,7 +32,6 @@ def setup_grid_and_background(map_width_px, map_height_px, grid_size_px):
         font_path = "/System/Library/Fonts/Supplemental/Arial.ttf"
         font = ImageFont.truetype(font_path, size=30)
     except IOError:
-        print("指定のフォントが見つかりませんでした。デフォルトフォントを使用します。")
         font = ImageFont.load_default()
       
     for y in range(num_grids_y):
