@@ -35,6 +35,7 @@ if __name__ == '__main__':
     TRAJECTORY_FILE_PATHS = [
         "./grid/data/threshold_trajectory_data.csv",
         "./speed/slowly/data/threshold_trajectory_data.csv",
+        "./part/1_straight_sit_quick/data/threshold_trajectory_data.csv"
     ] 
     # 座標変換パラメータ
     TRANSFORM_PARAMS_LIST = [
@@ -47,7 +48,13 @@ if __name__ == '__main__':
             'scale': 1.0,         #x 1mあたり1pxに変換
             'angle_deg':180.0,     # 180度回転
             'initial_position': (8, 21) # 軌跡の開始
+        },
+        {
+            'scale': 1.0,         #x 1mあたり1pxに変換
+            'angle_deg':-90.0,     
+            'initial_position': (10, 21) # 軌跡の開始
         }
+
     ]
     
     OUTPUT_IMAGE_PATH = "./grid/output/heatmap_result.png"
