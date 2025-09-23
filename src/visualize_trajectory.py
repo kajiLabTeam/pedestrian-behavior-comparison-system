@@ -50,4 +50,4 @@ def visualize_trajectory(df, background_image, map_width, map_height):
     # レイアウトを整えて表示
     fig.tight_layout()
     plt.savefig('output/全軌跡のマッピング結果.png', dpi=300)
-    plt.show()
+    # plt.show()
