@@ -15,7 +15,6 @@ def visualize_and_save_heatmap(stay_time_per_grid, background_img, num_grids_x, 
         map_height_px (int): マップの高さ
         output_path (str): 保存する画像のパス
     """
-    print(f"\n--- ヒートマップの可視化と保存: {output_path} ---")
 
     #   # forループを以下のように修正
     # for grid_id, total_time in stay_time_per_grid.items():

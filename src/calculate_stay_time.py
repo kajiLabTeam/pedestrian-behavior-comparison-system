@@ -11,7 +11,7 @@ def calculate_stay_time(df_trajectory, grid_size, map_width, map_height):
 		座標(x, y)がどのグリッドIDに属するかを計算する。
 		マップ範囲外の場合は-1を返す。
 		"""
-		print(f"x: {x}, y: {y},grid_size{grid_size}, map_width_px: {map_width_px}, map_height_px: {map_height_px}")
+		# print(f"x: {x}, y: {y},grid_size{grid_size}, map_width_px: {map_width_px}, map_height_px: {map_height_px}")
 		if not (0 <= x < map_width_px and 0 <= y < map_height_px):
 			return -1  # マップの範囲外
 		
@@ -30,8 +30,8 @@ def calculate_stay_time(df_trajectory, grid_size, map_width, map_height):
 	stay_time_per_grid = stay_points.groupby('grid_id')['time_diff'].sum()
 
 	# 結果の表示 (滞在時間があったグリッドのみ)
-	print("--- グリッドごとの滞在時間 ---")
-	print(stay_time_per_grid[stay_time_per_grid > 0])
-	print("-" * 20)
+	# print("--- グリッドごとの滞在時間 ---")
+	# print(stay_time_per_grid[stay_time_per_grid > 0])
+	# print("-" * 20)
 
 	return stay_time_per_grid
