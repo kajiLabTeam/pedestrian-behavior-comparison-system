@@ -37,21 +37,22 @@ if __name__ == '__main__':
     
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
     TRAJECTORY_FILE_PATHS_A = [
-        "./part/1_straight_sit_quick/data/threshold_trajectory_data.csv",
+        "./part/3_straight_sit/data/threshold_trajectory_data.csv" 
+     # "./part/2_straight_quick_sit/data/threshold_trajectory_data.csv" 
 
     ] 
 
     TRANSFORM_PARAMS_A = [
         {
             'scale': 1.0,         #x 1mあたり1pxに変換
-            'angle_deg':-90.0,     
+            'angle_deg':180.0,
             'initial_position': (10, 21) # 軌跡の開始
         },
 
     ]
 
     TRAJECTORY_FILE_PATHS_B = [       
-        "./part/3_straight_sit/data/threshold_trajectory_data.csv" 
+        "input/demo/take4.csv"
     ] 
  
 
@@ -60,15 +61,15 @@ if __name__ == '__main__':
 
         {
             'scale': 1.0,         #x 1mあたり1pxに変換
-            'angle_deg':180.0,     
-            'initial_position': (10, 21) # 軌跡の開始
+            'angle_deg':0.0,     
+            'initial_position': (6, 28) # 軌跡の開始
         },
     ]
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
     
-    heatmap_A = generate_heatmap_data(TRAJECTORY_FILE_PATHS_A, TRANSFORM_PARAMS_B,grid_data, background_image, num_grids_x, num_grids_y,calc_mode='count')    
-    heatmap_B = generate_heatmap_data(TRAJECTORY_FILE_PATHS_B, TRANSFORM_PARAMS_B,grid_data, background_image, num_grids_x, num_grids_y,calc_mode='count',) 
+    heatmap_A = generate_heatmap_data(TRAJECTORY_FILE_PATHS_A, TRANSFORM_PARAMS_A,grid_data, background_image, num_grids_x, num_grids_y,calc_mode=CALCULATION_MODE)    
+    heatmap_B = generate_heatmap_data(TRAJECTORY_FILE_PATHS_B, TRANSFORM_PARAMS_B,grid_data, background_image, num_grids_x, num_grids_y,calc_mode=CALCULATION_MODE) 
 
     ## グループAの単体ヒートマップを可視化
     create_single_heatmap(
