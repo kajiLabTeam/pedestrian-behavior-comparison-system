@@ -33,8 +33,12 @@ def transform_trajectory(df_trajectory, scale, correct_angle, initial_position, 
 	fig, ax = plt.subplots(figsize=(10,10))
 	ax.imshow(img, extent=[0, map_width, map_height, 0])
 
-	# scatterの戻り値を変数に格納する
-	scatter = ax.scatter(df_trajectory['x_final'], df_trajectory['y_final'], c=df_trajectory['time'], cmap='rainbow', s=40, label='歩行軌跡', zorder=2)
+	# 'time' 列を明示的に float 型（数値）に変換する
+	c_values = df_trajectory['time'].astype(float)
+
+	# 変換した c_values を c 引数に渡す
+	scatter = ax.scatter(df_trajectory['x_final'], df_trajectory['y_final'], c=c_values, cmap='rainbow', s=40, label='歩行軌跡', zorder=2)
+	
 
 	fig.colorbar(scatter, ax=ax, label='Time')
 	

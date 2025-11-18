@@ -6,6 +6,10 @@ from calculate_stay_time import calculate_stay_time
 from calculate_stay_count import calculate_stay_count
 from visualize_and_save_heatmap import visualize_and_save_heatmap
 from visualize_trajectory import visualize_trajectory
+from create_single_heatmap import create_single_heatmap
+
+from generate_heatmap_data import generate_heatmap_data
+from create_diff_heatmap import create_diff_heatmap
 
 from PIL import Image, ImageDraw, ImageFont
 import	numpy as np
@@ -32,111 +36,61 @@ if __name__ == '__main__':
     )    
     
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
-    TRAJECTORY_FILE_PATHS = [
-        "./grid/data/threshold_trajectory_data.csv",
-        "./speed/slowly/data/threshold_trajectory_data.csv",
-        "./part/1_straight_sit_quick/data/threshold_trajectory_data.csv",
-        "./part/2_straight_quick_sit/data/threshold_trajectory_data.csv",
-        "./part/3_straight_sit/data/threshold_trajectory_data.csv"
-       
+    TRAJECTORY_FILE_PATHS_A = [
+        "./part/3_straight_sit/data/threshold_trajectory_data.csv" 
+     # "./part/2_straight_quick_sit/data/threshold_trajectory_data.csv" 
+
     ] 
-    # 座標変換パラメータ
-    TRANSFORM_PARAMS_LIST = [
+
+    TRANSFORM_PARAMS_A = [
         {
             'scale': 1.0,         #x 1mあたり1pxに変換
-            'angle_deg': 180.0,     # 180度回転
-            'initial_position': (14, 21) # 軌跡の開始地点
-        },
-        {
-            'scale': 1.0,         #x 1mあたり1pxに変換
-            'angle_deg':180.0,     # 180度回転
-            'initial_position': (8, 21) # 軌跡の開始
-        },
-        {
-            'scale': 1.0,         #x 1mあたり1pxに変換
-            'angle_deg':-90.0,     
-            'initial_position': (10, 21) # 軌跡の開始
-        },
-        {
-            'scale': 1.0,         #x 1mあたり1pxに変換
-            'angle_deg':-90.0,     
-            'initial_position': (12, 21) # 軌跡の開始
-        },
-        {
-            'scale': 1.0,         #x 1mあたり1pxに変換
-            'angle_deg':180.0,     
+            'angle_deg':180.0,
             'initial_position': (10, 21) # 軌跡の開始
         },
 
     ]
+
+    TRAJECTORY_FILE_PATHS_B = [       
+        "input/demo/take4.csv"
+    ] 
+ 
+
+    # 座標変換パラメータ
+    TRANSFORM_PARAMS_B = [
+
+        {
+            'scale': 1.0,         #x 1mあたり1pxに変換
+            'angle_deg':0.0,     
+            'initial_position': (6, 28) # 軌跡の開始
+        },
+    ]
+    print(len(TRAJECTORY_FILE_PATHS_A))
+    print(len(TRAJECTORY_FILE_PATHS_B))
     
-    OUTPUT_IMAGE_PATH = "./grid/output/heatmap_result.png"
+    heatmap_A = generate_heatmap_data(TRAJECTORY_FILE_PATHS_A, TRANSFORM_PARAMS_A,grid_data, background_image, num_grids_x, num_grids_y,calc_mode=CALCULATION_MODE)    
+    heatmap_B = generate_heatmap_data(TRAJECTORY_FILE_PATHS_B, TRANSFORM_PARAMS_B,grid_data, background_image, num_grids_x, num_grids_y,calc_mode=CALCULATION_MODE) 
 
-    
-    ##  全軌跡の滞在時間を合算するための配列をゼロで初期化
-    # total_stay_times = np.zeros((num_grids_y, num_grids_x))
-    # 全軌跡の値を合算するための配列をゼロで初期化
-    total_values = np.zeros((num_grids_y, num_grids_x))
-        
-    
-    for file_path, transform_params in zip(TRAJECTORY_FILE_PATHS, TRANSFORM_PARAMS_LIST):
-        df_trajectory = load_trajectory_data(file_path)
-
-        # # 座標変換
-        df_transformed = transform_trajectory(
-            df_trajectory,
-            transform_params['scale'],
-            transform_params['angle_deg'],
-            transform_params['initial_position'],
-            grid_data,
-            GRID_SIZE_PX,
-            background_image,
-            MAP_WIDTH_PX,
-            MAP_HEIGHT_PX
-        )
-
-        visualize_trajectory(
-            df=df_transformed,
-            background_image=background_image,
-            map_width=MAP_WIDTH_PX,
-            map_height=MAP_HEIGHT_PX
-        )
-
-        if CALCULATION_MODE == 'time':
-                # 滞在時間の計算
-            calculated_values = calculate_stay_time(
-                df_transformed,
-                GRID_SIZE_PX,
-                MAP_WIDTH_PX,  
-                MAP_HEIGHT_PX,
-                
-            )
-            colorbar_label = "滞在時間 (秒)"
-
-        elif CALCULATION_MODE == 'count':
-            calculated_values = calculate_stay_count(
-                df_transformed,
-                GRID_SIZE_PX,
-            )
-            colorbar_label = "滞在回数"
-        
-        # 計算結果を合算する
-        for grid_id, value in calculated_values.items():
-            col, row = grid_id
-            if 0 <= row < total_values.shape[0] and 0 <= col < total_values.shape[1]:
-                total_values[row, col] += value
-    
-
-    # 結果の可視化と保存
-    visualize_and_save_heatmap(
-        # total_stay_times,
-        total_values,
-        background_image,
-        num_grids_x,
-        num_grids_y,
-        MAP_WIDTH_PX,
-        MAP_HEIGHT_PX,
-        OUTPUT_IMAGE_PATH,
-        colorbar_label=colorbar_label
+    ## グループAの単体ヒートマップを可視化
+    create_single_heatmap(
+        heatmap_data=heatmap_A,
+        background_image=background_image,
+        output_path="./output/heatmap_A.png",
+        colorbar_label="グループAの滞在回数"    
     )
-    
+    ## グループBの単体ヒートマップを可視化
+    create_single_heatmap(
+        heatmap_data=heatmap_B,
+        background_image=background_image,
+        output_path="./output/heatmap_B.png",
+        colorbar_label="グループBの滞在回数"    
+    )
+
+
+    create_diff_heatmap(
+        heatmap_data_A=heatmap_A,
+        heatmap_data_B=heatmap_B,
+        background_image=background_image,
+        output_path="./output/differential_heatmap.png",
+        colorbar_label=f"滞在{'回数' if CALCULATION_MODE == 'count' else '時間'}の差 (A - B)"
+    )
