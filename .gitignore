@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# IDE/OS
+.vscode/
+.DS_Store
+.ipynb_checkpoints/
+
+# 生成されるアウトプット
+src/output/
+src/output_trajectorys/
