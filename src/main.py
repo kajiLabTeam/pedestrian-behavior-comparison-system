@@ -52,7 +52,7 @@ if __name__ == '__main__':
     ]
 
     TRAJECTORY_FILE_PATHS_B = [       
-        "input/demo/take4.csv"
+        "output_trajectories/demo/take4_4Hz/threshold_trajectory_data.csv"
     ] 
  
 
