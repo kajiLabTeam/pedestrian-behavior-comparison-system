@@ -21,6 +21,7 @@ nest-asyncio==1.6.0
 numpy==2.3.5
 packaging==25.0
 pandas==2.3.3
+pandas-stubs==2.3.2.250926
 parso==0.8.5
 pexpect==4.9.0
 pillow==12.0.0
@@ -34,10 +35,12 @@ pyparsing==3.2.5
 python-dateutil==2.9.0.post0
 pytz==2025.2
 pyzmq==27.1.0
+scipy==1.16.3
 six==1.17.0
 stack-data==0.6.3
 tornado==6.5.2
 traitlets==5.14.3
+types-pytz==2025.2.0.20251108
 typing_extensions==4.15.0
 tzdata==2025.2
 wcwidth==0.2.14
