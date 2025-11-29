@@ -25,17 +25,18 @@ if __name__ == "__main__":
     logging_context = setup_logging()
     logger = logging_context.logger
     run_dir = logging_context.run_dir
+    input_trajcsv_dir = logging_context.input_trjcsv_dir
 
     # ヒートマップ作成のための前処理
     process_speed_data(
-        input_csv="input/demo/take5_A.csv",
+        input_csv=f"{input_trajcsv_dir}/take5_A.csv",
         output_csv="speed.csv",
         run_dir=run_dir,
         logger=logger,
     )
 
     process_thresholded_trajectory(
-        input_trajectory_csv="input/demo/take5_A.csv",
+        input_trajectory_csv=f"{input_trajcsv_dir}/take5_A.csv",
         input_speed_csv="speed.csv",
         output_csv="threshold_trajectory_data.csv",
         run_dir=run_dir,

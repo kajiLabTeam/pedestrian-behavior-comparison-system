@@ -7,11 +7,29 @@ from pathlib import Path
 
 @dataclass(frozen=True, slots=True)
 class LoggingContext:
-    """Holds logging state and run-specific paths."""
+    """ログ用の状態と実行時の出力パスを保持するデータクラス。
+
+    このクラスは、ログ出力を行う際に必要となるロガー本体と、
+    当該実行で生成される出力物（ログファイルやCSV/画像）を格納する
+    実行専用ディレクトリのパスをまとめて渡すために使います。
+
+    English:
+        Holds logging state and run-specific paths.
+
+    Attributes
+    ----------
+    logger:
+        `logging.Logger` オブジェクト。アプリケーション全体で使うロガー。これを使ってログ出力を行います。
+    run_dir:
+        実行ごとに生成される出力ディレクトリの `Path`（例: `output/20251129_123456`）。
+        ログ・生成CSV・画像をここに保存します。
+    input_trjcsv_dir:
+                入力の軌跡CSVファイルが格納されているディレクトリの `Path` (例: `input/demo/`)。
+    """
 
     logger: logging.Logger
     run_dir: Path
-    log_file: Path
+    input_trjcsv_dir: Path
 
 
 def setup_logging() -> LoggingContext:
@@ -55,5 +73,5 @@ def setup_logging() -> LoggingContext:
     return LoggingContext(
         logger=logger,
         run_dir=run_dir,
-        log_file=log_file,
+        input_trjcsv_dir=Path("input/demo"),
     )
