@@ -53,9 +53,9 @@ if __name__ == '__main__':
 
     TRAJECTORY_FILE_PATHS_B = [       
         "output_trajectories/demo/take4_4Hz/threshold_trajectory_data.csv",
-        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data_fake.csv"
+        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data_fake.csv",
+        "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data_fake.csv",
     ] 
- 
 
     # 座標変換パラメータ
     TRANSFORM_PARAMS_B = [
