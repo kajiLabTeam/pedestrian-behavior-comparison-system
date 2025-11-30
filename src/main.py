@@ -69,6 +69,11 @@ if __name__ == '__main__':
             'angle_deg':0.0,     
             'initial_position': (6, 28) # 軌跡の開始
         },
+        {
+            'scale': 1.0,         #x 1mあたり1pxに変換
+            'angle_deg':0.0,     
+            'initial_position': (6, 28) # 軌跡の開始
+        },
     ]
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
