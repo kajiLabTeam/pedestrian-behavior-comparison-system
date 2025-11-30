@@ -37,8 +37,8 @@ if __name__ == '__main__':
     
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
     TRAJECTORY_FILE_PATHS_A = [
-        "./part/3_straight_sit/data/threshold_trajectory_data.csv" 
-     # "./part/2_straight_quick_sit/data/threshold_trajectory_data.csv" 
+        "./part/3_straight_sit/data/threshold_trajectory_data.csv"
+        ""
 
     ] 
 
@@ -52,13 +52,18 @@ if __name__ == '__main__':
     ]
 
     TRAJECTORY_FILE_PATHS_B = [       
-        "output_trajectories/demo/take4_4Hz/threshold_trajectory_data.csv"
+        "output_trajectories/demo/take4_4Hz/threshold_trajectory_data.csv",
+        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data_fake.csv"
     ] 
  
 
     # 座標変換パラメータ
     TRANSFORM_PARAMS_B = [
-
+        {
+            'scale': 1.0,         #x 1mあたり1pxに変換
+            'angle_deg':0.0,     
+            'initial_position': (6, 28) # 軌跡の開始
+        },
         {
             'scale': 1.0,         #x 1mあたり1pxに変換
             'angle_deg':0.0,     
