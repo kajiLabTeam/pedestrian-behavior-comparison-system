@@ -15,6 +15,40 @@ def process_thresholded_trajectory(
     run_dir: Path | str | None = None,
     logger: logging.Logger | None = None,
 ) -> None:
+    """軌跡 CSV と速度 CSV を結合し、しきい値で滞在フラグを付けた CSV を出力する。
+
+     概要
+     ----
+     指定した軌跡 CSV（`time`, `x`, `y` を含む）と、速度情報が入った CSV
+    （`time`, `speed` を含む）を `time` 列で結合します。結合後、速度が
+     `threshold` 以下であれば `stay=True` を設定し、結果を CSV として書き出します。
+
+     パラメータ
+     --------
+     input_trajectory_csv:
+         入力軌跡 CSV のパス（`Path` または `str`）。`time`, `x`, `y` 列が必要です。
+     input_speed_csv:
+         入力速度 CSV のパス（`Path` または `str`）。`time`, `speed` 列が必要です。
+         実行時に `run_dir` を指定した場合、この関数は `Path(run_dir) / Path(input_speed_csv).name`
+         を読み取ります（出力と同じ実行ディレクトリに速度 CSV を置いてある想定）。
+     output_csv:
+         出力先のファイル名またはパス（`Path` または `str`）。`run_dir` が指定されると
+         `Path(run_dir) / Path(output_csv).name` に書き出されます。
+     threshold:
+         速度の閾値（inclusive）。この値以下の点を滞在（stay）と見なします。
+
+     キーワード引数
+     --------
+     run_dir:
+         実行ごとの出力ディレクトリ（`Path` または `str`）。指定すれば出力はその配下に保存されます。
+     logger:
+         使用する `logging.Logger`。省略時はモジュールロガーが使われます。
+
+     例外
+     ----
+     必要な列が揃っていない場合は `ValueError` を送出します。
+    """
+
     traj_path = Path(input_trajectory_csv)
     speed_path = Path(input_speed_csv)
 

@@ -13,6 +13,43 @@ def process_speed_data(
     run_dir: Path | str | None = None,
     logger: logging.Logger | None = None,
 ) -> None:
+    """CSV（軌跡）から速度を計算して CSV を出力する関数。
+
+    概要
+    ----
+    与えられた軌跡 CSV（`time`, `x`, `y` 列を含む）を読み込み、隣接点間の
+    距離を時間差で割ることで速度を計算します。計算結果は `time`, `speed`,
+    `low_speed`（移動平均，window=5）を含む CSV として書き出されます。
+
+    パラメータ
+    --------
+    input_csv:
+        入力軌跡 CSV のパス（`Path` または `str`）。列 `time`, `x`, `y` を含む必要があります。
+    output_csv:
+        出力 CSV のパスまたはファイル名（`Path` または `str`）。
+        `run_dir` が指定された場合は `Path(run_dir) / Path(output_csv).name` に書き出します。
+
+    キーワード引数
+    --------
+    run_dir:
+        実行ごとの出力ディレクトリ（`Path` または `str`）。省略時は `output_csv` のパスが使われます。
+    logger:
+        出力に使用する `logging.Logger`。省略した場合はモジュールロガーが使われます。
+
+    例外
+    ----
+    必要な列（`time`, `x`, `y`）が存在しない場合は `ValueError` を送出します。
+
+    例
+    --
+    process_speed_data(
+        "input/trajectory.csv",
+        "speed.csv",
+        run_dir=logging_context.run_dir,
+        logger=logging_context.logger,
+    )
+    """
+
     input_path = Path(input_csv)
 
     if logger is None:
