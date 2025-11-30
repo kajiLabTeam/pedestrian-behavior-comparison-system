@@ -62,6 +62,7 @@ def process_speed_data(
         output_path = Path(output_csv)
 
     df = pd.read_csv(input_path)
+    log.info("CSVを読み込みました: %s (%d行)", input_path, len(df))
     required_columns: Iterable[str] = {"time", "x", "y"}
     missing_columns = set(required_columns) - set(df.columns)
     if missing_columns:
@@ -84,9 +85,6 @@ def process_speed_data(
 
     window_speed = 5
     df_speed["low_speed"] = df_speed["speed"].rolling(window=window_speed).mean()
-
-    log.info("Computed speed data for %s (%d rows)", input_path, len(df_speed))
-
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df_speed.to_csv(output_path, index=False)
-    log.info("Saved speed CSV to %s", output_path)
+    log.info("スピードのCSVを保存しました: %s", output_path)

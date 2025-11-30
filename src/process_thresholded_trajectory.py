@@ -52,8 +52,6 @@ def process_thresholded_trajectory(
     traj_path = Path(input_trajectory_csv)
     speed_path = Path(input_speed_csv)
 
-    print(traj_path, speed_path)
-
     if logger is None:
         logger = logging.getLogger(__name__)
     log = logger
@@ -65,8 +63,10 @@ def process_thresholded_trajectory(
 
     # csvファイルの読み込み
     df_traj = pd.read_csv(traj_path)
+    log.info("軌跡CSVを読み込みました: %s (%d行)", traj_path, len(df_traj))
     speed_full_path = Path(f"{run_dir}/{speed_path.name}")
     df_speed = pd.read_csv(speed_full_path)
+    log.info("速度CSVを読み込みました: %s (%d行)", speed_full_path, len(df_speed))
 
     required_traj = {"time", "x", "y"}
     required_speed = {"time", "speed"}
@@ -84,7 +84,7 @@ def process_thresholded_trajectory(
     df["stay"] = df["speed"] <= threshold
 
     log.info(
-        "Merged trajectory (%s) with speed (%s); writing thresholded CSV to %s",
+        "軌跡CSV (%s) と速度CSV (%s) を結合し、閾値処理済みCSVを %s に書き出します",
         traj_path,
         speed_path,
         out_path,
@@ -92,4 +92,4 @@ def process_thresholded_trajectory(
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out_path, index=False)
-    log.info("Saved thresholded trajectory CSV to %s", out_path)
+    log.info("閾値処理済み軌跡CSVを保存しました: %s", out_path)
