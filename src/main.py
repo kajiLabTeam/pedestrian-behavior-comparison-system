@@ -155,6 +155,7 @@ def main(csv: bool):
         background_image=background_image,
         output_path="./output/heatmap_B.png",
         colorbar_label="グループBの滞在回数",
+        logger=logger,
     )
 
     create_diff_heatmap(
@@ -163,6 +164,7 @@ def main(csv: bool):
         background_image=background_image,
         output_path="./output/differential_heatmap.png",
         colorbar_label=f"滞在{'回数' if CALCULATION_MODE == 'count' else '時間'}の差 (B-A)",
+        logger=logger,
     )
 
 
