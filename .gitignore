@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 
+src/__pycache__/
+
 # IDE/OS
 .vscode/
 .DS_Store
@@ -10,3 +12,6 @@ __pycache__/
 # 生成されるアウトプット
 src/output/
 src/output_trajectorys/
+
+# venvを使った仮想環境の設定ファイル
+.venv/
