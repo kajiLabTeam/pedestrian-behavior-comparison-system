@@ -29,3 +29,15 @@
 
 ### データ
 歩行軌跡
+
+### 環境構築
+
+このプログラムは`python3.11.5`を使用しています.
+pythonのvenvを使用してください.
+
+```
+python -m venv .venv //仮想環境を作成する
+source .venv/bin/activate //仮想環境を使用する
+pip install -r requirements.txt //仮想環境にライブラリをインストールする
+deactivate //仮想環境から抜ける
+```
