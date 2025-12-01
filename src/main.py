@@ -17,9 +17,20 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import click
 
 plt.rcParams["font.family"] = "Hiragino Sans"
-if __name__ == "__main__":
+
+
+@click.command()
+@click.option(
+    "--csv",
+    "-c",
+    is_flag=True,
+    default=False,
+    help="軌跡のデータから速度,滞在情報を計算したCSVを出力します",
+)
+def main(csv: bool):
 
     # loggingのセットアップ
     logging_context = setup_logging()
@@ -27,21 +38,24 @@ if __name__ == "__main__":
     run_dir = logging_context.run_dir
     input_trajcsv_dir = logging_context.input_trjcsv_dir
 
-    # ヒートマップ作成のための前処理
-    process_speed_data(
-        input_csv=f"{input_trajcsv_dir}/A/20251127_ryuki_01.csv",
-        output_csv="speed.csv",
-        run_dir=run_dir,
-        logger=logger,
-    )
+    if csv:
+        # ヒートマップ作成のための前処理
+        process_speed_data(
+            input_csv=f"{input_trajcsv_dir}/A/20251127_ryuki_01.csv",
+            output_csv="speed.csv",
+            run_dir=run_dir,
+            logger=logger,
+        )
 
-    process_thresholded_trajectory(
-        input_trajectory_csv=f"{input_trajcsv_dir}/A/20251127_ryuki_01.csv",
-        input_speed_csv="speed.csv",
-        output_csv="threshold_trajectory_data.csv",
-        run_dir=run_dir,
-        logger=logger,
-    )
+        process_thresholded_trajectory(
+            input_trajectory_csv=f"{input_trajcsv_dir}/A/20251127_ryuki_01.csv",
+            input_speed_csv="speed.csv",
+            output_csv="threshold_trajectory_data.csv",
+            run_dir=run_dir,
+            logger=logger,
+        )
+        logger.info("速度・滞在情報付きCSVを出力しました。")
+        return
 
     # 1. 基本パラメータの設定
     MAP_WIDTH_PX = 2837
@@ -133,6 +147,7 @@ if __name__ == "__main__":
         background_image=background_image,
         output_path="./output/heatmap_A.png",
         colorbar_label="グループAの滞在回数",
+        logger=logger,
     )
     ## グループBの単体ヒートマップを可視化
     create_single_heatmap(
@@ -149,3 +164,7 @@ if __name__ == "__main__":
         output_path="./output/differential_heatmap.png",
         colorbar_label=f"滞在{'回数' if CALCULATION_MODE == 'count' else '時間'}の差 (B-A)",
     )
+
+
+if __name__ == "__main__":
+    main()
