@@ -10,3 +10,7 @@ __pycache__/
 # 生成されるアウトプット
 src/output/
 src/output_trajectorys/
+
+
+# 仮想環境作成時のフォルダ
+src/.venv/
