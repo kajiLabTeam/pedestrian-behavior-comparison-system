@@ -13,4 +13,4 @@ src/output_trajectorys/
 
 
 # 仮想環境作成時のフォルダ
-src/.venv/
+.venv/
