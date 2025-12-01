@@ -37,28 +37,47 @@ if __name__ == '__main__':
     
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
     TRAJECTORY_FILE_PATHS_A = [
-        "./part/3_straight_sit/data/threshold_trajectory_data.csv" 
-     # "./part/2_straight_quick_sit/data/threshold_trajectory_data.csv" 
+
+         "output_trajectories/demo/A/20251127_ryuki_01/threshold_trajectory_data.csv",
+         "output_trajectories/demo/A/20251127_ryuki_02/threshold_trajectory_data.csv",
 
     ] 
 
     TRANSFORM_PARAMS_A = [
         {
             'scale': 1.0,         #x 1mあたり1pxに変換
-            'angle_deg':180.0,
-            'initial_position': (10, 21) # 軌跡の開始
+            'angle_deg':0.0,     
+            'initial_position': (6, 28) # 軌跡の開始
+        },
+        {
+            'scale': 1.0,         #x 1mあたり1pxに変換
+            'angle_deg':0.0,     
+            'initial_position': (6, 28) # 軌跡の開始
         },
 
     ]
 
     TRAJECTORY_FILE_PATHS_B = [       
-        "output_trajectories/demo/take4_4Hz/threshold_trajectory_data.csv"
+        # "output_trajectories/demo/take4_4Hz/threshold_trajectory_data.csv",
+        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
+        "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
+
+        #  "output_trajectories/demo/A/20251127_ryuki_01/threshold_trajectory_data.csv",
+        #  "output_trajectories/demo/A/20251127_ryuki_02/threshold_trajectory_data.csv",
     ] 
- 
 
     # 座標変換パラメータ
     TRANSFORM_PARAMS_B = [
-
+        {
+            'scale': 1.0,         #x 1mあたり1pxに変換
+            'angle_deg':0.0,     
+            'initial_position': (6, 28) # 軌跡の開始
+        },
+        {
+            'scale': 1.0,         #x 1mあたり1pxに変換
+            'angle_deg':0.0,     
+            'initial_position': (7, 28) # 軌跡の開始
+        },
         {
             'scale': 1.0,         #x 1mあたり1pxに変換
             'angle_deg':0.0,     
@@ -92,5 +111,5 @@ if __name__ == '__main__':
         heatmap_data_B=heatmap_B,
         background_image=background_image,
         output_path="./output/differential_heatmap.png",
-        colorbar_label=f"滞在{'回数' if CALCULATION_MODE == 'count' else '時間'}の差 (A - B)"
+        colorbar_label=f"滞在{'回数' if CALCULATION_MODE == 'count' else '時間'}の差 (B-A)"
     )
