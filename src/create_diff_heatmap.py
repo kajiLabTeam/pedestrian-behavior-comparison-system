@@ -11,7 +11,7 @@ def create_diff_heatmap(heatmap_data_A, heatmap_data_B, background_image, output
     
 
     # 差分データを計算
-    diff_data = heatmap_data_A - heatmap_data_B
+    diff_data =  heatmap_data_B - heatmap_data_A
     
     # 色の範囲を0を中心に左右対称にする
     vmax = np.abs(diff_data).max()

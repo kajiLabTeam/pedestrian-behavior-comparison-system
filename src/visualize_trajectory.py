@@ -15,6 +15,15 @@ def visualize_trajectory(df_list, background_image, map_width, map_height, outpu
         map_height (int): マップの高さ (ピクセル)。
         output_dir (str): 出力ディレクトリ。
     """
+
+    # 呼び出し回数をカウントする
+    if not hasattr(visualize_trajectory, "call_count"):
+        visualize_trajectory.call_count = 0
+    
+    suffix = "A" if visualize_trajectory.call_count % 2 == 0 else "B"
+    visualize_trajectory.call_count += 1
+    
+
     fig, ax = plt.subplots(figsize=(map_width / 100, map_height / 100), dpi=100)
     ax.imshow(background_image, extent=[0, map_width, map_height, 0])
 
@@ -42,7 +51,7 @@ def visualize_trajectory(df_list, background_image, map_width, map_height, outpu
                        c='red', s=70, label=f'Trajectory {i+1} (滞在中)', zorder=3, alpha=0.8)
 
     # グラフの装飾
-    ax.set_title('全軌跡のマッピング結果', fontsize=18)
+    ax.set_title('全軌跡のマッピング結果({suffix})', fontsize=18)
     ax.set_xlabel('幅[px]', fontsize=14)
     ax.set_ylabel('高さ[px]', fontsize=14)
     ax.set_xlim(0, map_width)
@@ -55,6 +64,7 @@ def visualize_trajectory(df_list, background_image, map_width, map_height, outpu
 
     # レイアウトを整えて保存
     fig.tight_layout()
-    out_path = os.path.join(output_dir, "trajectory_combined.png")
+    filename = f"trajectory_combined_{suffix}.png"
+    out_path = os.path.join(output_dir, filename)
     plt.savefig(out_path, dpi=300)
     plt.close(fig)
