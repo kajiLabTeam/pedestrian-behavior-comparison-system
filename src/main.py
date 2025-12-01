@@ -130,6 +130,7 @@ def main(csv: bool):
         num_grids_x,
         num_grids_y,
         calc_mode=CALCULATION_MODE,
+        logger=logger,
     )
     heatmap_B = generate_heatmap_data(
         TRAJECTORY_FILE_PATHS_B,
@@ -139,6 +140,7 @@ def main(csv: bool):
         num_grids_x,
         num_grids_y,
         calc_mode=CALCULATION_MODE,
+        logger=logger,
     )
 
     ## グループAの単体ヒートマップを可視化
