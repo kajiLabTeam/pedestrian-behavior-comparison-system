@@ -61,21 +61,33 @@ def process_thresholded_trajectory(
     else:
         out_path = Path(output_csv)
 
-    # csvファイルの読み込み
-    df_traj = pd.read_csv(traj_path)
-    log.info("軌跡CSVを読み込みました: %s (%d行)", traj_path, len(df_traj))
+    # csvファイルの読み込み（失敗時にログ出力して再送出）
+    try:
+        df_traj = pd.read_csv(traj_path)
+        log.info("軌跡CSVを読み込みました: %s (%d行)", traj_path, len(df_traj))
+    except Exception:
+        log.exception("軌跡CSVの読み込みに失敗しました: %s", traj_path)
+        raise
+
     speed_full_path = Path(f"{run_dir}/{speed_path.name}")
-    df_speed = pd.read_csv(speed_full_path)
-    log.info("速度CSVを読み込みました: %s (%d行)", speed_full_path, len(df_speed))
+    try:
+        df_speed = pd.read_csv(speed_full_path)
+        log.info("速度CSVを読み込みました: %s (%d行)", speed_full_path, len(df_speed))
+    except Exception:
+        log.exception("速度CSVの読み込みに失敗しました: %s", speed_full_path)
+        raise
 
     required_traj = {"time", "x", "y"}
     required_speed = {"time", "speed"}
     missing_traj = required_traj - set(df_traj.columns)
     missing_speed = required_speed - set(df_speed.columns)
     if missing_traj:
-        raise ValueError(f"trajectory CSV missing columns: {sorted(missing_traj)}")
+        # 短い警告ログを出力してから例外を送出
+        log.warning("軌跡CSVに必要な列がありません: %s", sorted(missing_traj))
+        raise ValueError(f"軌跡CSVに必要な列がありません: {sorted(missing_traj)}")
     if missing_speed:
-        raise ValueError(f"speed CSV missing columns: {sorted(missing_speed)}")
+        log.warning("速度CSVに必要な列がありません: %s", sorted(missing_speed))
+        raise ValueError(f"速度CSVに必要な列がありません: {sorted(missing_speed)}")
 
     # Merge speed into trajectory on time
     df = pd.merge(df_traj, df_speed[["time", "speed"]], on="time", how="left")
@@ -83,13 +95,11 @@ def process_thresholded_trajectory(
     # Mark stays
     df["stay"] = df["speed"] <= threshold
 
-    log.info(
-        "軌跡CSV (%s) と速度CSV (%s) を結合し、閾値処理済みCSVを %s に書き出します",
-        traj_path,
-        speed_path,
-        out_path,
-    )
-
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(out_path, index=False)
-    log.info("閾値処理済み軌跡CSVを保存しました: %s", out_path)
+    # 出力CSVの書き出し（失敗時はログ出力して再送出）
+    try:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        df.to_csv(out_path, index=False)
+        log.info("閾値処理済み軌跡CSVを保存しました: %s", out_path)
+    except Exception:
+        log.exception("閾値処理済み軌跡CSVの書き出しに失敗しました: %s", out_path)
+        raise

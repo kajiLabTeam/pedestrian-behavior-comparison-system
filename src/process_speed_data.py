@@ -61,14 +61,20 @@ def process_speed_data(
     else:
         output_path = Path(output_csv)
 
-    df = pd.read_csv(input_path)
-    log.info("CSVを読み込みました: %s (%d行)", input_path, len(df))
+    # 入力CSVの読み込み（失敗時はログ出力して再送出）
+    try:
+        df = pd.read_csv(input_path)
+        log.info("CSVを読み込みました: %s (%d行)", input_path, len(df))
+    except Exception:
+        log.exception("軌跡CSVの読み込みに失敗しました: %s", input_path)
+        raise
+
     required_columns: Iterable[str] = {"time", "x", "y"}
     missing_columns = set(required_columns) - set(df.columns)
+    
     if missing_columns:
-        raise ValueError(
-            f"CSV file missing required columns: {sorted(missing_columns)}"
-        )
+        log.warning("軌跡CSVに必要な列がありません: %s", sorted(missing_columns))
+        raise ValueError(f"CSVに必要な列が不足しています: {sorted(missing_columns)}")
 
     dt = df["time"].diff().replace(0, np.nan)
     dx = df["x"].diff()
@@ -85,6 +91,14 @@ def process_speed_data(
 
     window_speed = 5
     df_speed["low_speed"] = df_speed["speed"].rolling(window=window_speed).mean()
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    df_speed.to_csv(output_path, index=False)
-    log.info("スピードのCSVを保存しました: %s", output_path)
+    # 速度データの計算完了ログ
+    log.info("速度データを計算しました: %s (%d行)", input_path, len(df_speed))
+
+    # 出力CSVの書き出し（失敗時はログ出力して再送出）
+    try:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        df_speed.to_csv(output_path, index=False)
+        log.info("スピードのCSVを保存しました: %s", output_path)
+    except Exception:
+        log.exception("速度CSVの書き出しに失敗しました: %s", output_path)
+        raise
