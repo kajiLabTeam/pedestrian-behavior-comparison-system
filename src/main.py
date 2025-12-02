@@ -26,11 +26,12 @@ plt.rcParams["font.family"] = "Hiragino Sans"
 @click.option(
     "--csv",
     "-c",
-    is_flag=True,
-    default=False,
-    help="軌跡のデータから速度,滞在情報を計算したCSVを出力します",
+    "csv_input",
+    type=click.Path(exists=True),
+    default=None,
+    help="入力軌跡CSVのパスを指定すると速度・滞在情報付きCSVを作成して終了します。使用例: --csv path/to/input.csv",
 )
-def main(csv: bool):
+def main(csv_input: str):
 
     # loggingのセットアップ
     logging_context = setup_logging()
@@ -38,23 +39,28 @@ def main(csv: bool):
     run_dir = logging_context.run_dir
     input_trajcsv_dir = logging_context.input_trjcsv_dir
 
-    if csv:
-        # ヒートマップ作成のための前処理
+    if csv_input:
+        # 指定された入力ファイルで CSV を作成して終了
+        logger.info("Running processing to create CSVs from %s", csv_input)
         process_speed_data(
-            input_csv=f"{input_trajcsv_dir}/A/20251127_ryuki_01.csv",
+            input_csv=csv_input,
             output_csv="speed.csv",
             run_dir=run_dir,
             logger=logger,
         )
 
         process_thresholded_trajectory(
-            input_trajectory_csv=f"{input_trajcsv_dir}/A/20251127_ryuki_01.csv",
+            input_trajectory_csv=csv_input,
             input_speed_csv="speed.csv",
             output_csv="threshold_trajectory_data.csv",
             run_dir=run_dir,
             logger=logger,
         )
-        logger.info("速度・滞在情報付きCSVを出力しました。")
+        logger.info(
+            "速度・滞在情報付きCSVを出力しました: %s, %s",
+            "speed.csv",
+            "threshold_trajectory_data.csv",
+        )
         return
 
     # 1. 基本パラメータの設定
