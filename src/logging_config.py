@@ -23,23 +23,33 @@ class LoggingContext:
     run_dir:
         実行ごとに生成される出力ディレクトリの `Path`（例: `output/20251129_123456`）。
         ログ・生成CSV・画像をここに保存します。
-    input_trjcsv_dir:
-                入力の軌跡CSVファイルが格納されているディレクトリの `Path` (例: `input/demo/`)。
     """
 
     logger: logging.Logger
     run_dir: Path
-    input_trjcsv_dir: Path
 
 
-def setup_logging() -> LoggingContext:
-    """Configure logging and prepare a timestamped run directory."""
+def setup_logging(mode: str | None = None) -> LoggingContext:
+    """ログを設定し、時系列でソートしやすい名前の実行ディレクトリを作成します。
+
+    生成される実行ディレクトリ名は先頭にタイムスタンプ（YYYYMMDD_HHMMSS）を付け、
+    末尾に実行モード（例: 'csv'、'heatmap'）を付与します。これによりディレクトリ名だけで
+    何を実行したのかが分かり、アルファベット順（名前順）でソートすると時系列順に並びます。
+
+    引数
+    -----
+    mode:
+        実行モードを表す文字列（例: 'csv' や 'heatmap'）。省略すると 'heatmap' が使われます。
+    """
 
     base_path = Path("output")
     base_path.mkdir(parents=True, exist_ok=True)
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_dir = base_path / ts
+    mode_label = (mode or "heatmap").lower()
+    # sanitize: allow only alnum and underscore
+    mode_label = "".join([c for c in mode_label if c.isalnum() or c == "_"])
+    run_dir = base_path / f"{ts}_{mode_label}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
     log_file = run_dir / f"{ts}.log"
@@ -73,5 +83,4 @@ def setup_logging() -> LoggingContext:
     return LoggingContext(
         logger=logger,
         run_dir=run_dir,
-        input_trjcsv_dir=Path("input/demo"),
     )
