@@ -41,7 +41,7 @@ def main(csv_input: str):
 
     if csv_input:
         # 指定された入力ファイルで CSV を作成して終了
-        logger.info("%s の速度・滞在情報付きCSVを作成します。", csv_input)
+        logger.info("速度・滞在情報付きCSVを作成します：%s", csv_input)
         process_speed_data(
             input_csv=csv_input,
             output_csv="speed.csv",

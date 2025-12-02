@@ -70,7 +70,7 @@ def setup_logging(mode: str) -> LoggingContext:
     logger.addHandler(stream_handler)
 
     logger.info(
-        "Loggingを初期化しました。 level=%s run_dir=%s",
+        "Loggingを初期化しました：level=%s run_dir=%s",
         logging.getLevelName(logger.level),
         run_dir,
     )
