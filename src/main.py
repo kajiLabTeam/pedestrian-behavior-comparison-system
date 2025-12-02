@@ -17,9 +17,21 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import click
 
 plt.rcParams["font.family"] = "Hiragino Sans"
-if __name__ == "__main__":
+
+
+@click.command()
+@click.option(
+    "--csv",
+    "-c",
+    "csv_input",
+    type=click.Path(exists=True),
+    default=None,
+    help="入力軌跡CSVのパスを指定すると速度・滞在情報付きCSVを作成して終了します。使用例: --csv path/to/input.csv",
+)
+def main(csv_input: str):
 
     # loggingのセットアップ
     logging_context = setup_logging()
@@ -27,21 +39,29 @@ if __name__ == "__main__":
     run_dir = logging_context.run_dir
     input_trajcsv_dir = logging_context.input_trjcsv_dir
 
-    # ヒートマップ作成のための前処理
-    process_speed_data(
-        input_csv=f"{input_trajcsv_dir}/A/20251127_ryuki_01.csv",
-        output_csv="speed.csv",
-        run_dir=run_dir,
-        logger=logger,
-    )
+    if csv_input:
+        # 指定された入力ファイルで CSV を作成して終了
+        logger.info("Running processing to create CSVs from %s", csv_input)
+        process_speed_data(
+            input_csv=csv_input,
+            output_csv="speed.csv",
+            run_dir=run_dir,
+            logger=logger,
+        )
 
-    process_thresholded_trajectory(
-        input_trajectory_csv=f"{input_trajcsv_dir}/A/20251127_ryuki_01.csv",
-        input_speed_csv="speed.csv",
-        output_csv="threshold_trajectory_data.csv",
-        run_dir=run_dir,
-        logger=logger,
-    )
+        process_thresholded_trajectory(
+            input_trajectory_csv=csv_input,
+            input_speed_csv="speed.csv",
+            output_csv="threshold_trajectory_data.csv",
+            run_dir=run_dir,
+            logger=logger,
+        )
+        logger.info(
+            "速度・滞在情報付きCSVを出力しました: %s, %s",
+            "speed.csv",
+            "threshold_trajectory_data.csv",
+        )
+        return
 
     # 1. 基本パラメータの設定
     MAP_WIDTH_PX = 2837
@@ -116,6 +136,7 @@ if __name__ == "__main__":
         num_grids_x,
         num_grids_y,
         calc_mode=CALCULATION_MODE,
+        logger=logger,
     )
     heatmap_B = generate_heatmap_data(
         TRAJECTORY_FILE_PATHS_B,
@@ -125,6 +146,7 @@ if __name__ == "__main__":
         num_grids_x,
         num_grids_y,
         calc_mode=CALCULATION_MODE,
+        logger=logger,
     )
 
     ## グループAの単体ヒートマップを可視化
@@ -133,6 +155,7 @@ if __name__ == "__main__":
         background_image=background_image,
         output_path="./output/heatmap_A.png",
         colorbar_label="グループAの滞在回数",
+        logger=logger,
     )
     ## グループBの単体ヒートマップを可視化
     create_single_heatmap(
@@ -140,6 +163,7 @@ if __name__ == "__main__":
         background_image=background_image,
         output_path="./output/heatmap_B.png",
         colorbar_label="グループBの滞在回数",
+        logger=logger,
     )
 
     create_diff_heatmap(
@@ -148,4 +172,9 @@ if __name__ == "__main__":
         background_image=background_image,
         output_path="./output/differential_heatmap.png",
         colorbar_label=f"滞在{'回数' if CALCULATION_MODE == 'count' else '時間'}の差 (B-A)",
+        logger=logger,
     )
+
+
+if __name__ == "__main__":
+    main()

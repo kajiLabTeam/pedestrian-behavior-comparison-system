@@ -41,3 +41,11 @@ source .venv/bin/activate //仮想環境を使用する
 pip install -r requirements.txt //仮想環境にライブラリをインストールする
 deactivate //仮想環境から抜ける
 ```
+
+### 使用できるコマンド
+
+pythonコマンドを実行することでヒートマップの作成を行うことができます.
+
+`python main.py`
+
+コマンドにオプションを付与することで特定の軌跡データからスピードや滞在情報を付与したCSVファイルを作成することができます
