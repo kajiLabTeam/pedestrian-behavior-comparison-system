@@ -155,11 +155,19 @@ def main(csv_input: str):
     ]
 
     TRAJECTORY_FILE_PATHS_B = [
-        # "output_trajectories/demo/take4_4Hz/threshold_trajectory_data.csv",
         "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
         "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
-        #  "output_trajectories/demo/A/20251127_ryuki_01/threshold_trajectory_data.csv",
-        #  "output_trajectories/demo/A/20251127_ryuki_02/threshold_trajectory_data.csv",
+        "output/20251203_191707/threshold_trajectory_data.csv",
+        "output/20251203_203433/threshold_trajectory_data.csv",
+        "output/20251203_203439/threshold_trajectory_data.csv",
+        "output/20251203_203444/threshold_trajectory_data.csv",
+        "output/20251203_203448/threshold_trajectory_data.csv",
+        "output/20251203_203453/threshold_trajectory_data.csv",
+        "output/20251203_203459/threshold_trajectory_data.csv",
+        "output/20251203_203509/threshold_trajectory_data.csv",
+        "output/20251203_203521/threshold_trajectory_data.csv",
+        "output/20251203_203527/threshold_trajectory_data.csv",
+
     ]
 
     # 座標変換パラメータ
@@ -179,6 +187,46 @@ def main(csv_input: str):
             "angle_deg": 0.0,
             "initial_position": (6, 28),  
         },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6,28),  
+        }
     ]
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
