@@ -1,3 +1,4 @@
+from typing import Literal
 from logging_config import setup_logging
 from process_speed_data import process_speed_data
 from process_thresholded_trajectory import process_thresholded_trajectory
@@ -31,11 +32,18 @@ plt.rcParams["font.family"] = "Hiragino Sans"
     default=None,
     help="入力軌跡CSVのパスを指定すると速度・滞在情報付きCSVを作成して終了します。使用例: --csv path/to/input.csv",
 )
-def main(csv_input: str):
+@click.option(
+    "--pattern",
+    "-p",
+    "pattern",
+    type=click.Choice(["A", "B"]),
+    default="A",
+    help="処理対象のグループを指定します。'A' または 'B' を選択できます。デフォルトは 'A' です。",
+)
+def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
 
     # loggingのセットアップ
-    # csv_inputが指定された場合はcsvモード、そうでなければヒートマップモードとしてディレクトリ作成
-    logging_context = setup_logging(mode=("csv" if csv_input else "heatmap"))
+    logging_context = setup_logging()
     logger = logging_context.logger
     run_dir = logging_context.run_dir
 
@@ -155,18 +163,9 @@ def main(csv_input: str):
     ]
 
     TRAJECTORY_FILE_PATHS_B = [
-        "input/processed/B/20251127_ryuki_01.csv",
-        "input/processed/B/20251127_ryuki_02.csv",
-        "input/processed/B/20251203_ishii_01.csv",
-        "input/processed/B/20251203_ishii_02.csv",
-        "input/processed/B/20251203_ishii_03.csv",
-        "input/processed/B/20251203_ishii_04.csv",
-        "input/processed/B/20251203_ishii_05.csv",
-        "input/processed/B/20251203_ishii_06.csv",
-        "input/processed/B/20251203_ishii_07.csv",
-        "input/processed/B/20251203_ishii_08.csv",
-        "input/processed/B/20251203_ishii_09.csv",
-        "input/processed/B/20251203_ishii_10.csv",
+        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
+        "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
+      
     ]
 
     # 座標変換パラメータ

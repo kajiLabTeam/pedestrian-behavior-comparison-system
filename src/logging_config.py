@@ -3,6 +3,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+from typing import Literal
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,6 +38,8 @@ def setup_logging(mode: str) -> LoggingContext:
     mode:
         実行モードを表す文字列（例: 'csv' や 'heatmap'）
     """
+def setup_logging(pattern: Literal["A", "B"] | None = None) -> LoggingContext:
+    """Configure logging and prepare a timestamped run directory."""
 
     base_path = Path("output")
     base_path.mkdir(parents=True, exist_ok=True)
@@ -45,6 +48,7 @@ def setup_logging(mode: str) -> LoggingContext:
 
     # ディレクトリの末尾につける文字列を決定(csv or heatmap)
     run_dir = base_path / f"{ts}_{mode}"
+    run_dir = base_path / (ts if pattern is None else f"{ts}_{pattern}")
     run_dir.mkdir(parents=True, exist_ok=True)
 
     log_file = run_dir / f"{ts}.log"
