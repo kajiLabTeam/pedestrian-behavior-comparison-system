@@ -82,46 +82,150 @@ def main(csv_input: str):
 
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
     TRAJECTORY_FILE_PATHS_A = [
-        "output_trajectories/demo/A/20251127_ryuki_01/threshold_trajectory_data.csv",
-        "output_trajectories/demo/A/20251127_ryuki_02/threshold_trajectory_data.csv",
+        "input/processed/A/20251127_ryuki_01.csv",
+        "input/processed/A/20251127_ryuki_02.csv",
+        "input/processed/A/20251203_ishii_01.csv",
+        "input/processed/A/20251203_ishii_02.csv",
+        "input/processed/A/20251203_ishii_03.csv",
+        "input/processed/A/20251203_ishii_04.csv",
+        "input/processed/A/20251203_ishii_05.csv",
+        "input/processed/A/20251203_ishii_06.csv",
+        "input/processed/A/20251203_ishii_07.csv",
+        "input/processed/A/20251203_ishii_08.csv",
+        "input/processed/A/20251203_ishii_09.csv",
+        "input/processed/A/20251203_ishii_10.csv",
     ]
 
     TRANSFORM_PARAMS_A = [
         {
-            "scale": 1.0,  # x 1mあたり1pxに変換
+            "scale": 1.0,  
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  # 軌跡の開始
+            "initial_position": (6, 28),  
         },
         {
-            "scale": 1.0,  # x 1mあたり1pxに変換
+            "scale": 1.0,  
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  # 軌跡の開始
+            "initial_position": (6, 28), 
         },
+        {
+            "scale": 1.0,
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6,28),  
+        }                          
     ]
 
     TRAJECTORY_FILE_PATHS_B = [
-        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
-        "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
-      
+        "input/processed/B/20251127_ryuki_01.csv",
+        "input/processed/B/20251127_ryuki_02.csv",
+        "input/processed/B/20251203_ishii_01.csv",
+        "input/processed/B/20251203_ishii_02.csv",
+        "input/processed/B/20251203_ishii_03.csv",
+        "input/processed/B/20251203_ishii_04.csv",
+        "input/processed/B/20251203_ishii_05.csv",
+        "input/processed/B/20251203_ishii_06.csv",
+        "input/processed/B/20251203_ishii_07.csv",
+        "input/processed/B/20251203_ishii_08.csv",
+        "input/processed/B/20251203_ishii_09.csv",
+        "input/processed/B/20251203_ishii_10.csv",
     ]
 
     # 座標変換パラメータ
     TRANSFORM_PARAMS_B = [
         {
-            "scale": 1.0,  # x 1mあたり1pxに変換
+            "scale": 1.0,  
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  # 軌跡の開始
+            "initial_position": (6, 28),  
         },
         {
-            "scale": 1.0,  # x 1mあたり1pxに変換
+            "scale": 1.0,  
             "angle_deg": 0.0,
-            "initial_position": (7, 28),  # 軌跡の開始
+            "initial_position": (7, 28),  
         },
         {
-            "scale": 1.0,  # x 1mあたり1pxに変換
+            "scale": 1.0,  
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  # 軌跡の開始
+            "initial_position": (6, 28),  
         },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),  
+        },
+        {
+            "scale": 1.0,  
+            "angle_deg": 0.0,
+            "initial_position": (6,28),  
+        }
     ]
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
