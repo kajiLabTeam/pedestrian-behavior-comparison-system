@@ -167,7 +167,6 @@ def main(csv_input: str):
         "output/20251203_203509/threshold_trajectory_data.csv",
         "output/20251203_203521/threshold_trajectory_data.csv",
         "output/20251203_203527/threshold_trajectory_data.csv",
-
     ]
 
     # 座標変換パラメータ
