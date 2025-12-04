@@ -100,11 +100,9 @@ def main(csv_input: str):
     ]
 
     TRAJECTORY_FILE_PATHS_B = [
-        # "output_trajectories/demo/take4_4Hz/threshold_trajectory_data.csv",
         "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
         "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
-        #  "output_trajectories/demo/A/20251127_ryuki_01/threshold_trajectory_data.csv",
-        #  "output_trajectories/demo/A/20251127_ryuki_02/threshold_trajectory_data.csv",
+      
     ]
 
     # 座標変換パラメータ
