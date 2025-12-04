@@ -82,18 +82,18 @@ def main(csv_input: str):
 
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
     TRAJECTORY_FILE_PATHS_A = [
-        "output_trajectories/demo/A/20251127_ryuki_01/threshold_trajectory_data.csv",
-        "output_trajectories/demo/A/20251127_ryuki_02/threshold_trajectory_data.csv",
-        "output/20251203_185308/threshold_trajectory_data.csv",
-        "output/20251203_191202/threshold_trajectory_data.csv",
-        "output/20251203_191210/threshold_trajectory_data.csv",
-        "output/20251203_191216/threshold_trajectory_data.csv",
-        "output/20251203_191223/threshold_trajectory_data.csv",
-        "output/20251203_191228/threshold_trajectory_data.csv",
-        "output/20251203_191238/threshold_trajectory_data.csv",
-        "output/20251203_191249/threshold_trajectory_data.csv",
-        "output/20251203_191256/threshold_trajectory_data.csv",
-        "output/20251203_191304/threshold_trajectory_data.csv",
+        "input/processed/A/20251127_ryuki_01.csv",
+        "input/processed/A/20251127_ryuki_02.csv",
+        "input/processed/A/20251203_ishii_01.csv",
+        "input/processed/A/20251203_ishii_02.csv",
+        "input/processed/A/20251203_ishii_03.csv",
+        "input/processed/A/20251203_ishii_04.csv",
+        "input/processed/A/20251203_ishii_05.csv",
+        "input/processed/A/20251203_ishii_06.csv",
+        "input/processed/A/20251203_ishii_07.csv",
+        "input/processed/A/20251203_ishii_08.csv",
+        "input/processed/A/20251203_ishii_09.csv",
+        "input/processed/A/20251203_ishii_10.csv",
     ]
 
     TRANSFORM_PARAMS_A = [
@@ -155,18 +155,18 @@ def main(csv_input: str):
     ]
 
     TRAJECTORY_FILE_PATHS_B = [
-        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
-        "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
-        "output/20251203_191707/threshold_trajectory_data.csv",
-        "output/20251203_203433/threshold_trajectory_data.csv",
-        "output/20251203_203439/threshold_trajectory_data.csv",
-        "output/20251203_203444/threshold_trajectory_data.csv",
-        "output/20251203_203448/threshold_trajectory_data.csv",
-        "output/20251203_203453/threshold_trajectory_data.csv",
-        "output/20251203_203459/threshold_trajectory_data.csv",
-        "output/20251203_203509/threshold_trajectory_data.csv",
-        "output/20251203_203521/threshold_trajectory_data.csv",
-        "output/20251203_203527/threshold_trajectory_data.csv",
+        "input/processed/B/20251127_ryuki_01.csv",
+        "input/processed/B/20251127_ryuki_02.csv",
+        "input/processed/B/20251203_ishii_01.csv",
+        "input/processed/B/20251203_ishii_02.csv",
+        "input/processed/B/20251203_ishii_03.csv",
+        "input/processed/B/20251203_ishii_04.csv",
+        "input/processed/B/20251203_ishii_05.csv",
+        "input/processed/B/20251203_ishii_06.csv",
+        "input/processed/B/20251203_ishii_07.csv",
+        "input/processed/B/20251203_ishii_08.csv",
+        "input/processed/B/20251203_ishii_09.csv",
+        "input/processed/B/20251203_ishii_10.csv",
     ]
 
     # 座標変換パラメータ
