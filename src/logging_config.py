@@ -23,23 +23,28 @@ class LoggingContext:
     run_dir:
         実行ごとに生成される出力ディレクトリの `Path`（例: `output/20251129_123456`）。
         ログ・生成CSV・画像をここに保存します。
-    input_trjcsv_dir:
-                入力の軌跡CSVファイルが格納されているディレクトリの `Path` (例: `input/demo/`)。
     """
 
     logger: logging.Logger
     run_dir: Path
-    input_trjcsv_dir: Path
 
 
-def setup_logging() -> LoggingContext:
-    """Configure logging and prepare a timestamped run directory."""
+def setup_logging(mode: str) -> LoggingContext:
+    """ログ出力のセットアップを行い、LoggingContext を返す。mode に応じたディレクトリを作成する。
+
+    引数
+    -----
+    mode:
+        実行モードを表す文字列（例: 'csv' や 'heatmap'）
+    """
 
     base_path = Path("output")
     base_path.mkdir(parents=True, exist_ok=True)
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_dir = base_path / ts
+
+    # ディレクトリの末尾につける文字列を決定(csv or heatmap)
+    run_dir = base_path / f"{ts}_{mode}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
     log_file = run_dir / f"{ts}.log"
@@ -65,7 +70,7 @@ def setup_logging() -> LoggingContext:
     logger.addHandler(stream_handler)
 
     logger.info(
-        "Loggingを初期化しました。 level=%s run_dir=%s",
+        "Loggingを初期化しました：level=%s run_dir=%s",
         logging.getLevelName(logger.level),
         run_dir,
     )
@@ -73,5 +78,4 @@ def setup_logging() -> LoggingContext:
     return LoggingContext(
         logger=logger,
         run_dir=run_dir,
-        input_trjcsv_dir=Path("input/demo"),
     )

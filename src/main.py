@@ -34,14 +34,14 @@ plt.rcParams["font.family"] = "Hiragino Sans"
 def main(csv_input: str):
 
     # loggingのセットアップ
-    logging_context = setup_logging()
+    # csv_inputが指定された場合はcsvモード、そうでなければヒートマップモードとしてディレクトリ作成
+    logging_context = setup_logging(mode=("csv" if csv_input else "heatmap"))
     logger = logging_context.logger
     run_dir = logging_context.run_dir
-    input_trajcsv_dir = logging_context.input_trjcsv_dir
 
     if csv_input:
         # 指定された入力ファイルで CSV を作成して終了
-        logger.info("Running processing to create CSVs from %s", csv_input)
+        logger.info("速度・滞在情報付きCSVを作成します：%s", csv_input)
         process_speed_data(
             input_csv=csv_input,
             output_csv="speed.csv",
