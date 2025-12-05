@@ -30,7 +30,9 @@ class LoggingContext:
     run_dir: Path
 
 
-def setup_logging(mode: str) -> LoggingContext:
+def setup_logging(
+    mode: Literal["csv", "heatmap"], pattern: Literal["A", "B"] | None = None
+) -> LoggingContext:
     """ログ出力のセットアップを行い、LoggingContext を返す。mode に応じたディレクトリを作成する。
 
     引数
@@ -38,8 +40,6 @@ def setup_logging(mode: str) -> LoggingContext:
     mode:
         実行モードを表す文字列（例: 'csv' や 'heatmap'）
     """
-def setup_logging(pattern: Literal["A", "B"] | None = None) -> LoggingContext:
-    """Configure logging and prepare a timestamped run directory."""
 
     base_path = Path("output")
     base_path.mkdir(parents=True, exist_ok=True)
@@ -47,8 +47,9 @@ def setup_logging(pattern: Literal["A", "B"] | None = None) -> LoggingContext:
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # ディレクトリの末尾につける文字列を決定(csv or heatmap)
-    run_dir = base_path / f"{ts}_{mode}"
-    run_dir = base_path / (ts if pattern is None else f"{ts}_{pattern}")
+    run_dir = base_path / (
+        f"{ts}_{mode}" if pattern is None else f"{ts}_{mode}_{pattern}"
+    )
     run_dir.mkdir(parents=True, exist_ok=True)
 
     log_file = run_dir / f"{ts}.log"

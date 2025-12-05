@@ -48,12 +48,13 @@ plt.rcParams["font.family"] = "Hiragino Sans"
 )
 def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
     # loggingのセットアップ
-    logging_context = setup_logging()
     csv_pattern: Literal["A", "B"] | None = None
     if csv_input is not None:
         # csvオプションが指定されている場合
         csv_pattern = pattern if pattern is not None else "A"
-    logging_context = setup_logging(pattern=csv_pattern)
+    logging_context = setup_logging(
+        mode="csv" if csv_input is not None else "heatmap", pattern=csv_pattern
+    )
     logger = logging_context.logger
     run_dir = logging_context.run_dir
 
