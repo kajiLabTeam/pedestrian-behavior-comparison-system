@@ -39,6 +39,8 @@ def setup_logging(
     -----
     mode:
         実行モードを表す文字列（例: 'csv' や 'heatmap'）
+    pattern:
+                条件パターンを表す文字列（例: 'A' や 'B'）。省略可能。
     """
 
     base_path = Path("output")
@@ -47,6 +49,7 @@ def setup_logging(
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # ディレクトリの末尾につける文字列を決定(csv or heatmap)
+    # csvなら末尾にpatternもつける
     run_dir = base_path / (
         f"{ts}_{mode}" if pattern is None else f"{ts}_{mode}_{pattern}"
     )

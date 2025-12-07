@@ -47,14 +47,15 @@ plt.rcParams["font.family"] = "Hiragino Sans"
     help="ヒートマップ生成時、処理対象をグループBのデータに設定します。",
 )
 def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
-    # loggingのセットアップ
-    csv_pattern: Literal["A", "B"] | None = None
+
     if csv_input is not None:
         # csvオプションが指定されている場合
         csv_pattern = pattern if pattern is not None else "A"
-    logging_context = setup_logging(
-        mode="csv" if csv_input is not None else "heatmap", pattern=csv_pattern
-    )
+        logging_context = setup_logging(mode="csv", pattern=csv_pattern)
+    else:
+        # ヒートマップ生成の場合
+        logging_context = setup_logging(mode="heatmap")
+
     logger = logging_context.logger
     run_dir = logging_context.run_dir
 
