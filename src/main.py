@@ -60,9 +60,7 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
 
     if csv_input:
         # 指定された入力ファイルで CSV を作成して終了
-        logger.info("速度・滞在情報付きCSVを作成します：%s", csv_input)
         logger.info("条件%sでCSV処理を実行します。", f"({pattern})")
-        logger.info("Running processing to create CSVs from %s", csv_input)
         process_speed_data(
             input_csv=csv_input,
             output_csv="speed.csv",
