@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Literal
 from logging_config import setup_logging
 from process_speed_data import process_speed_data
@@ -60,6 +61,10 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
     run_dir = logging_context.run_dir
 
     if csv_input:
+
+        split_path = Path(csv_input).parts
+        file_name = split_path[-1]
+
         # 指定された入力ファイルで CSV を作成して終了
         logger.info("条件%sでCSV処理を実行します。", f"({pattern})")
         process_speed_data(
@@ -72,14 +77,14 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
         process_thresholded_trajectory(
             input_trajectory_csv=csv_input,
             input_speed_csv="speed.csv",
-            output_csv="threshold_trajectory_data.csv",
+            output_csv=file_name,
             run_dir=run_dir,
             logger=logger,
         )
         logger.info(
             "速度・滞在情報付きCSVを出力しました: %s, %s",
             "speed.csv",
-            "threshold_trajectory_data.csv",
+            file_name,
         )
         return
 
