@@ -14,10 +14,7 @@ class LoggingContext:
     当該実行で生成される出力物（ログファイルやCSV/画像）を格納する
     実行専用ディレクトリのパスをまとめて渡すために使います。
 
-    English:
-        Holds logging state and run-specific paths.
-
-    Attributes
+    属性
     ----------
     logger:
         `logging.Logger` オブジェクト。アプリケーション全体で使うロガー。これを使ってログ出力を行います。
