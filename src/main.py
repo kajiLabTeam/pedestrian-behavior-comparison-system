@@ -1,3 +1,5 @@
+from pathlib import Path
+from typing import Literal
 from logging_config import setup_logging
 from process_speed_data import process_speed_data
 from process_thresholded_trajectory import process_thresholded_trajectory
@@ -31,17 +33,40 @@ plt.rcParams["font.family"] = "Hiragino Sans"
     default=None,
     help="入力軌跡CSVのパスを指定すると速度・滞在情報付きCSVを作成して終了します。使用例: --csv path/to/input.csv",
 )
-def main(csv_input: str):
+@click.option(
+    "-a",
+    "--pattern-a",
+    "pattern",
+    flag_value="A",
+    help="ヒートマップ生成時、処理対象をグループAのデータに設定します。",
+)
+@click.option(
+    "-b",
+    "--pattern-b",
+    "pattern",
+    flag_value="B",
+    help="ヒートマップ生成時、処理対象をグループBのデータに設定します。",
+)
+def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
 
-    # loggingのセットアップ
-    # csv_inputが指定された場合はcsvモード、そうでなければヒートマップモードとしてディレクトリ作成
-    logging_context = setup_logging(mode=("csv" if csv_input else "heatmap"))
+    if csv_input is not None:
+        # csvオプションが指定されている場合
+        csv_pattern = pattern if pattern is not None else "A"
+        logging_context = setup_logging(mode="csv", pattern=csv_pattern)
+    else:
+        # ヒートマップ生成の場合
+        logging_context = setup_logging(mode="heatmap")
+
     logger = logging_context.logger
     run_dir = logging_context.run_dir
 
     if csv_input:
+
+        split_path = Path(csv_input).parts
+        file_name = split_path[-1]
+
         # 指定された入力ファイルで CSV を作成して終了
-        logger.info("速度・滞在情報付きCSVを作成します：%s", csv_input)
+        logger.info("条件%sでCSV処理を実行します。", f"({pattern})")
         process_speed_data(
             input_csv=csv_input,
             output_csv="speed.csv",
@@ -52,14 +77,14 @@ def main(csv_input: str):
         process_thresholded_trajectory(
             input_trajectory_csv=csv_input,
             input_speed_csv="speed.csv",
-            output_csv="threshold_trajectory_data.csv",
+            output_csv=file_name,
             run_dir=run_dir,
             logger=logger,
         )
         logger.info(
             "速度・滞在情報付きCSVを出力しました: %s, %s",
             "speed.csv",
-            "threshold_trajectory_data.csv",
+            file_name,
         )
         return
 
@@ -98,14 +123,9 @@ def main(csv_input: str):
 
     TRANSFORM_PARAMS_A = [
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
-        },
-        {
-            "scale": 1.0,  
-            "angle_deg": 0.0,
-            "initial_position": (6, 28), 
+            "initial_position": (6, 28),
         },
         {
             "scale": 1.0,
@@ -113,119 +133,114 @@ def main(csv_input: str):
             "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
             "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6,28),  
-        }                          
+            "initial_position": (6, 28),
+        },
+        {
+            "scale": 1.0,
+            "angle_deg": 0.0,
+            "initial_position": (6, 28),
+        },
     ]
 
     TRAJECTORY_FILE_PATHS_B = [
-        "input/processed/B/20251127_ryuki_01.csv",
-        "input/processed/B/20251127_ryuki_02.csv",
-        "input/processed/B/20251203_ishii_01.csv",
-        "input/processed/B/20251203_ishii_02.csv",
-        "input/processed/B/20251203_ishii_03.csv",
-        "input/processed/B/20251203_ishii_04.csv",
-        "input/processed/B/20251203_ishii_05.csv",
-        "input/processed/B/20251203_ishii_06.csv",
-        "input/processed/B/20251203_ishii_07.csv",
-        "input/processed/B/20251203_ishii_08.csv",
-        "input/processed/B/20251203_ishii_09.csv",
-        "input/processed/B/20251203_ishii_10.csv",
+        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
+        "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
     ]
 
     # 座標変換パラメータ
     TRANSFORM_PARAMS_B = [
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (7, 28),  
+            "initial_position": (7, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6, 28),  
+            "initial_position": (6, 28),
         },
         {
-            "scale": 1.0,  
+            "scale": 1.0,
             "angle_deg": 0.0,
-            "initial_position": (6,28),  
-        }
+            "initial_position": (6, 28),
+        },
     ]
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
