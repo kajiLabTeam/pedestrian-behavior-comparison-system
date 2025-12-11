@@ -12,7 +12,7 @@ def create_diff_heatmap(
     heatmap_data_A,
     heatmap_data_B,
     background_image,
-    output_path,
+    run_dir,
     colorbar_label="差分",
     logger=None,
 ):
@@ -48,7 +48,7 @@ def create_diff_heatmap(
     cbar.set_label(colorbar_label, fontsize=14)
 
     ax.axis("off")
-    plt.savefig(output_path, bbox_inches="tight", pad_inches=0)
+    plt.savefig(run_dir, bbox_inches="tight", pad_inches=0)
     plt.close(fig)
-    log.info("差分ヒートマップを保存しました: %s", output_path)
+    log.info("差分ヒートマップを保存しました: %s", run_dir)
     # print(f"差分ヒートマップを {output_path} に保存しました。")

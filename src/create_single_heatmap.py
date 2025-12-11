@@ -9,7 +9,7 @@ GRID_SIZE_PX = 100
 
 
 def create_single_heatmap(
-    heatmap_data, background_image, output_path, colorbar_label="滞在回数", logger=None
+    heatmap_data, background_image, run_dir, colorbar_label="滞在回数", logger=None
 ):
     """単体のヒートマップデータを可視化し、保存する関数"""
 
@@ -34,7 +34,7 @@ def create_single_heatmap(
 
     ax.axis("off")
 
-    plt.savefig(output_path, bbox_inches="tight", pad_inches=0)
+    plt.savefig(run_dir, bbox_inches="tight", pad_inches=0)
     plt.close(fig)
-    log.info("単体ヒートマップを保存しました: %s", output_path)
+    log.info("単体ヒートマップを保存しました: %s", run_dir)
     # print(f"単体ヒートマップを {output_path} に保存しました。")

@@ -60,6 +60,9 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
     logger = logging_context.logger
     run_dir = logging_context.run_dir
 
+    print(Path(run_dir) / "heatmap_A.png")
+    print(Path(run_dir, "heatmap_A.png"))
+
     if csv_input:
 
         split_path = Path(csv_input).parts
@@ -270,26 +273,26 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
     create_single_heatmap(
         heatmap_data=heatmap_A,
         background_image=background_image,
-        output_path="./output/heatmap_A.png",
         colorbar_label="グループAの滞在回数",
         logger=logger,
+        run_dir=Path(run_dir, "heatmap_A.png"),
     )
     ## グループBの単体ヒートマップを可視化
     create_single_heatmap(
         heatmap_data=heatmap_B,
         background_image=background_image,
-        output_path="./output/heatmap_B.png",
         colorbar_label="グループBの滞在回数",
         logger=logger,
+        run_dir=Path(run_dir) / "heatmap_B.png",
     )
 
     create_diff_heatmap(
         heatmap_data_A=heatmap_A,
         heatmap_data_B=heatmap_B,
         background_image=background_image,
-        output_path="./output/differential_heatmap.png",
         colorbar_label=f"滞在{'回数' if CALCULATION_MODE == 'count' else '時間'}の差 (B-A)",
         logger=logger,
+        run_dir=Path(run_dir) / "differential_heatmap.png",
     )
 
 
