@@ -51,7 +51,7 @@ plt.rcParams["font.family"] = "Hiragino Sans"
 )
 @click.option(
     "-f",
-    "--all-files",
+    "--all",
     "is_all",
     is_flag=True,
     help="ヒートマップ生成時に全ての軌跡データを処理対象とします。",
