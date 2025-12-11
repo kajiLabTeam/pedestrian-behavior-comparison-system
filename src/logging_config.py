@@ -28,7 +28,9 @@ class LoggingContext:
 
 
 def setup_logging(
-    mode: Literal["csv", "heatmap"], pattern: Literal["A", "B"] | None = None
+    mode: Literal["csv", "heatmap"],
+    pattern: Literal["A", "B"] | None = None,
+    is_all: bool = False,
 ) -> LoggingContext:
     """ログ出力のセットアップを行い、LoggingContext を返す。mode に応じたディレクトリを作成する。
 
@@ -37,7 +39,9 @@ def setup_logging(
     mode:
         実行モードを表す文字列（例: 'csv' や 'heatmap'）
     pattern:
-                条件パターンを表す文字列（例: 'A' や 'B'）。省略可能。
+        条件パターンを表す文字列（例: 'A' や 'B'）。省略可能。
+    is_all:
+        全データ処理モードかどうかを示すブール値。
     """
 
     base_path = Path("output")
@@ -47,9 +51,11 @@ def setup_logging(
 
     # ディレクトリの末尾につける文字列を決定(csv or heatmap)
     # csvなら末尾にpatternもつける
-    run_dir = base_path / (
-        f"{ts}_{mode}" if pattern is None else f"{ts}_{mode}_{pattern}"
-    )
+    if mode == "csv":
+        run_dir = base_path / f"{ts}_{mode}_{pattern}"
+    else:
+        run_dir = base_path / f"{ts}_{mode}{'_all' if is_all else ''}"
+
     run_dir.mkdir(parents=True, exist_ok=True)
 
     log_file = run_dir / f"{ts}.log"
