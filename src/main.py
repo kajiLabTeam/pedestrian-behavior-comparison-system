@@ -127,14 +127,14 @@ def main(
     if is_all:
         # 全ファイルを対象とする場合 input/processed 以下の全csvを対象にする
         logger.info("全ての軌跡データを処理対象とします。")
-        trj_files_a = glob.glob("input/processed/A/*.csv")
-        trj_files_b = glob.glob("input/processed/B/*.csv")
+        trajectory_files_a = sorted(glob.glob("input/processed/A/*.csv"))
+        trajectory_files_b = sorted(glob.glob("input/processed/B/*.csv"))
 
         TRAJECTORY_FILE_PATHS_A = (
-            trj_files_a if trj_files_a else cfg.TRAJECTORY_FILE_PATHS_A
+            trajectory_files_a if trajectory_files_a else cfg.TRAJECTORY_FILE_PATHS_A
         )
         TRAJECTORY_FILE_PATHS_B = (
-            trj_files_b if trj_files_b else cfg.TRAJECTORY_FILE_PATHS_B
+            trajectory_files_b if trajectory_files_b else cfg.TRAJECTORY_FILE_PATHS_B
         )
     else:
         logger.info("設定ファイルの軌跡データを処理対象とします。")
