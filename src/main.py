@@ -60,9 +60,6 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
     logger = logging_context.logger
     run_dir = logging_context.run_dir
 
-    print(Path(run_dir) / "heatmap_A.png")
-    print(Path(run_dir, "heatmap_A.png"))
-
     if csv_input:
 
         split_path = Path(csv_input).parts
@@ -283,7 +280,7 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
         background_image=background_image,
         colorbar_label="グループBの滞在回数",
         logger=logger,
-        run_dir=Path(run_dir) / "heatmap_B.png",
+        run_dir=Path(run_dir, "heatmap_B.png"),
     )
 
     create_diff_heatmap(
@@ -292,7 +289,7 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
         background_image=background_image,
         colorbar_label=f"滞在{'回数' if CALCULATION_MODE == 'count' else '時間'}の差 (B-A)",
         logger=logger,
-        run_dir=Path(run_dir) / "differential_heatmap.png",
+        run_dir=Path(run_dir, "differential_heatmap.png"),
     )
 
 
