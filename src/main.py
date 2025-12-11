@@ -21,6 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import click
+import glob
 
 plt.rcParams["font.family"] = "Hiragino Sans"
 
@@ -48,7 +49,16 @@ plt.rcParams["font.family"] = "Hiragino Sans"
     flag_value="B",
     help="csvデータの処理を行う時、処理対象をグループBのデータに設定します。",
 )
-def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
+@click.option(
+    "-all",
+    "--all-files",
+    "is_all",
+    is_flag=True,
+    help="ヒートマップ生成時に全ての軌跡データを処理対象とします。",
+)
+def main(
+    csv_input: str, pattern: Literal["A", "B"] | None = None, is_all: bool = False
+) -> None:
 
     if csv_input is not None:
         # csvオプションが指定されている場合
@@ -106,16 +116,29 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
         MAP_WIDTH_PX, MAP_HEIGHT_PX, GRID_SIZE_PX
     )
 
+    if is_all:
+        # 全ファイルを対象とする場合 input/processed 以下の全csvを対象にする
+        logger.info("全ての軌跡データを処理対象とします。")
+        trj_files_a = glob.glob("input/processed/A/*.csv")
+        trj_files_b = glob.glob("input/processed/B/*.csv")
+
+        TRAJECTORY_FILE_PATHS_A = (
+            trj_files_a if trj_files_a else cfg.TRAJECTORY_FILE_PATHS_A
+        )
+        TRAJECTORY_FILE_PATHS_B = (
+            trj_files_b if trj_files_b else cfg.TRAJECTORY_FILE_PATHS_B
+        )
+    else:
+        logger.info("設定ファイルの軌跡データを処理対象とします。")
+        # 通常は設定ファイルの内容を使う
+        TRAJECTORY_FILE_PATHS_A = cfg.TRAJECTORY_FILE_PATHS_A
+        TRAJECTORY_FILE_PATHS_B = cfg.TRAJECTORY_FILE_PATHS_B
+
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
-    TRAJECTORY_FILE_PATHS_A = cfg.TRAJECTORY_FILE_PATHS_A
-
     TRANSFORM_PARAMS_A = cfg.DEFAULT_TRANSFORM_PARAM
-
-    TRAJECTORY_FILE_PATHS_B = cfg.TRAJECTORY_FILE_PATHS_B
-
     # 座標変換パラメータ
     TRANSFORM_PARAMS_B = cfg.DEFAULT_TRANSFORM_PARAM
-    
+
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
 
@@ -141,7 +164,6 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
         calc_mode=CALCULATION_MODE,
         logger=logger,
     )
-
     ## グループAの単体ヒートマップを可視化
     create_single_heatmap(
         heatmap_data=heatmap_A,
