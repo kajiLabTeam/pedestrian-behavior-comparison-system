@@ -14,6 +14,7 @@ from create_single_heatmap import create_single_heatmap
 
 from generate_heatmap_data import generate_heatmap_data
 from create_diff_heatmap import create_diff_heatmap
+from config import trajectory_lists as cfg
 
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
@@ -106,142 +107,15 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
     )
 
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
-    TRAJECTORY_FILE_PATHS_A = [
-        "input/processed/A/20251127_ryuki_01.csv",
-        "input/processed/A/20251127_ryuki_02.csv",
-        "input/processed/A/20251203_ishii_01.csv",
-        "input/processed/A/20251203_ishii_02.csv",
-        "input/processed/A/20251203_ishii_03.csv",
-        "input/processed/A/20251203_ishii_04.csv",
-        "input/processed/A/20251203_ishii_05.csv",
-        "input/processed/A/20251203_ishii_06.csv",
-        "input/processed/A/20251203_ishii_07.csv",
-        "input/processed/A/20251203_ishii_08.csv",
-        "input/processed/A/20251203_ishii_09.csv",
-        "input/processed/A/20251203_ishii_10.csv",
-    ]
+    TRAJECTORY_FILE_PATHS_A = cfg.TRAJECTORY_FILE_PATHS_A
 
-    TRANSFORM_PARAMS_A = [
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-    ]
+    TRANSFORM_PARAMS_A = cfg.DEFAULT_TRANSFORM_PARAM
 
-    TRAJECTORY_FILE_PATHS_B = [
-        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
-        "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
-    ]
+    TRAJECTORY_FILE_PATHS_B = cfg.TRAJECTORY_FILE_PATHS_B
 
     # 座標変換パラメータ
-    TRANSFORM_PARAMS_B = [
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (7, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-    ]
+    TRANSFORM_PARAMS_B = cfg.DEFAULT_TRANSFORM_PARAM
+    
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
 
