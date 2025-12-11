@@ -38,14 +38,14 @@ plt.rcParams["font.family"] = "Hiragino Sans"
     "--pattern-a",
     "pattern",
     flag_value="A",
-    help="ヒートマップ生成時、処理対象をグループAのデータに設定します。",
+    help="csvデータの処理を行う時、処理対象をグループAのデータに設定します。",
 )
 @click.option(
     "-b",
     "--pattern-b",
     "pattern",
     flag_value="B",
-    help="ヒートマップ生成時、処理対象をグループBのデータに設定します。",
+    help="csvデータの処理を行う時、処理対象をグループBのデータに設定します。",
 )
 def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
 
@@ -245,6 +245,7 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
 
+    logger.info("Aのヒートマップを生成します。")
     heatmap_A = generate_heatmap_data(
         TRAJECTORY_FILE_PATHS_A,
         TRANSFORM_PARAMS_A,
@@ -255,6 +256,7 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
         calc_mode=CALCULATION_MODE,
         logger=logger,
     )
+    logger.info("Bのヒートマップを生成します。")
     heatmap_B = generate_heatmap_data(
         TRAJECTORY_FILE_PATHS_B,
         TRANSFORM_PARAMS_B,

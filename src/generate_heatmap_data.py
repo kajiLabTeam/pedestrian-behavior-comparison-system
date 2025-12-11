@@ -29,7 +29,6 @@ def generate_heatmap_data(
     if logger is None:
         logger = logging.getLogger(__name__)
     log = logger
-    log.info("ヒートマップデータの生成を開始します。")
 
     # 全軌跡の値を合算するための配列をゼロで初期化
     total_values = np.zeros((num_grids_y, num_grids_x))
