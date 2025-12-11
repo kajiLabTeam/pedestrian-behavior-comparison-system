@@ -50,7 +50,7 @@ plt.rcParams["font.family"] = "Hiragino Sans"
     help="csvデータの処理を行う時、処理対象をグループBのデータに設定します。",
 )
 @click.option(
-    "-all",
+    "-f",
     "--all-files",
     "is_all",
     is_flag=True,
@@ -62,10 +62,20 @@ def main(
 
     if csv_input is not None:
         # csvオプションが指定されている場合
+
+        if is_all:
+            raise click.UsageError(
+                "--all-filesオプションはCSV処理時には使用できません。"
+            )
+
         csv_pattern = pattern if pattern is not None else "A"
         logging_context = setup_logging(mode="csv", pattern=csv_pattern)
     else:
         # ヒートマップ生成の場合
+
+        if pattern is not None:
+            raise click.UsageError("--patternオプションはCSV処理時にのみ使用できます。")
+
         logging_context = setup_logging(mode="heatmap")
 
     logger = logging_context.logger
