@@ -14,12 +14,14 @@ from create_single_heatmap import create_single_heatmap
 
 from generate_heatmap_data import generate_heatmap_data
 from create_diff_heatmap import create_diff_heatmap
+from config import trajectory_lists as cfg
 
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import click
+import glob
 
 plt.rcParams["font.family"] = "Hiragino Sans"
 
@@ -47,15 +49,32 @@ plt.rcParams["font.family"] = "Hiragino Sans"
     flag_value="B",
     help="csvデータの処理を行う時、処理対象をグループBのデータに設定します。",
 )
-def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
+@click.option(
+    "-f",
+    "--all",
+    "is_all",
+    is_flag=True,
+    help="ヒートマップ生成時に全ての軌跡データを処理対象とします。",
+)
+def main(
+    csv_input: str, pattern: Literal["A", "B"] | None = None, is_all: bool = False
+) -> None:
 
     if csv_input is not None:
         # csvオプションが指定されている場合
+
+        if is_all:
+            raise click.UsageError("--allオプションはCSV処理時には使用できません。")
+
         csv_pattern = pattern if pattern is not None else "A"
         logging_context = setup_logging(mode="csv", pattern=csv_pattern)
     else:
         # ヒートマップ生成の場合
-        logging_context = setup_logging(mode="heatmap")
+
+        if pattern is not None:
+            raise click.UsageError("--patternオプションはCSV処理時にのみ使用できます。")
+
+        logging_context = setup_logging(mode="heatmap", is_all=is_all)
 
     logger = logging_context.logger
     run_dir = logging_context.run_dir
@@ -105,143 +124,29 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
         MAP_WIDTH_PX, MAP_HEIGHT_PX, GRID_SIZE_PX
     )
 
+    if is_all:
+        # 全ファイルを対象とする場合 input/processed 以下の全csvを対象にする
+        logger.info("全ての軌跡データを処理対象とします。")
+        trajectory_files_a = sorted(glob.glob("input/processed/A/*.csv"))
+        trajectory_files_b = sorted(glob.glob("input/processed/B/*.csv"))
+
+        TRAJECTORY_FILE_PATHS_A = (
+            trajectory_files_a if trajectory_files_a else cfg.TRAJECTORY_FILE_PATHS_A
+        )
+        TRAJECTORY_FILE_PATHS_B = (
+            trajectory_files_b if trajectory_files_b else cfg.TRAJECTORY_FILE_PATHS_B
+        )
+    else:
+        logger.info("設定ファイルの軌跡データを処理対象とします。")
+        # 通常は設定ファイルの内容を使う
+        TRAJECTORY_FILE_PATHS_A = cfg.TRAJECTORY_FILE_PATHS_A
+        TRAJECTORY_FILE_PATHS_B = cfg.TRAJECTORY_FILE_PATHS_B
+
     # # 3. 処理対象の軌跡データと、それに対応する変換パラメータを設定
-    TRAJECTORY_FILE_PATHS_A = [
-        "input/processed/A/20251127_ryuki_01.csv",
-        "input/processed/A/20251127_ryuki_02.csv",
-        "input/processed/A/20251203_ishii_01.csv",
-        "input/processed/A/20251203_ishii_02.csv",
-        "input/processed/A/20251203_ishii_03.csv",
-        "input/processed/A/20251203_ishii_04.csv",
-        "input/processed/A/20251203_ishii_05.csv",
-        "input/processed/A/20251203_ishii_06.csv",
-        "input/processed/A/20251203_ishii_07.csv",
-        "input/processed/A/20251203_ishii_08.csv",
-        "input/processed/A/20251203_ishii_09.csv",
-        "input/processed/A/20251203_ishii_10.csv",
-    ]
-
-    TRANSFORM_PARAMS_A = [
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-    ]
-
-    TRAJECTORY_FILE_PATHS_B = [
-        "output_trajectories/demo/B/20251127_ryuki_01/threshold_trajectory_data.csv",
-        "output_trajectories/demo/B/20251127_ryuki_02/threshold_trajectory_data.csv",
-    ]
-
+    TRANSFORM_PARAMS_A = cfg.DEFAULT_TRANSFORM_PARAM
     # 座標変換パラメータ
-    TRANSFORM_PARAMS_B = [
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (7, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-        {
-            "scale": 1.0,
-            "angle_deg": 0.0,
-            "initial_position": (6, 28),
-        },
-    ]
+    TRANSFORM_PARAMS_B = cfg.DEFAULT_TRANSFORM_PARAM
+
     print(len(TRAJECTORY_FILE_PATHS_A))
     print(len(TRAJECTORY_FILE_PATHS_B))
 
@@ -267,7 +172,6 @@ def main(csv_input: str, pattern: Literal["A", "B"] | None = None):
         calc_mode=CALCULATION_MODE,
         logger=logger,
     )
-
     ## グループAの単体ヒートマップを可視化
     create_single_heatmap(
         heatmap_data=heatmap_A,

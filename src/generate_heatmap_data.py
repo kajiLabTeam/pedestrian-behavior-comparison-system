@@ -17,7 +17,7 @@ GRID_SIZE_PX = 100
 
 def generate_heatmap_data(
     file_paths,
-    transform_params_list,
+    transform_params: dict,
     grid_data,
     background_image,
     num_grids_x,
@@ -34,7 +34,7 @@ def generate_heatmap_data(
     total_values = np.zeros((num_grids_y, num_grids_x))
     transformed_list = []
 
-    for file_path, transform_params in zip(file_paths, transform_params_list):
+    for file_path in file_paths:
         log.info(
             "(%s,%s)軌跡データの処理を開始します: %s",
             file_paths.index(file_path) + 1,
@@ -55,7 +55,6 @@ def generate_heatmap_data(
             MAP_WIDTH_PX,
             MAP_HEIGHT_PX,
         )
-
         transformed_list.append(df_transformed)
 
         if calc_mode == "time":

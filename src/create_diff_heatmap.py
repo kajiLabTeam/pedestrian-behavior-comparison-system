@@ -20,7 +20,6 @@ def create_diff_heatmap(
     if logger is None:
         logger = logging.getLogger(__name__)
     log = logger
-    log.info("差分ヒートマップの描画を開始します。")
 
     # 差分データを計算
     diff_data = heatmap_data_B - heatmap_data_A
