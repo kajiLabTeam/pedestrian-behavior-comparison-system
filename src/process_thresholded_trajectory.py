@@ -93,7 +93,11 @@ def process_thresholded_trajectory(
     df = pd.merge(df_traj, df_speed[["time", "speed"]], on="time", how="left")
 
     # Mark stays
-    df["stay"] = df["speed"] <= threshold
+    # 0.5秒までのtimeは滞在とみなさない
+    if (df["time"] <= 0.5).any():
+        df["stay"] = False
+    else:
+        df["stay"] = df["speed"] <= threshold
 
     # 出力CSVの書き出し（失敗時はログ出力して再送出）
     try:
