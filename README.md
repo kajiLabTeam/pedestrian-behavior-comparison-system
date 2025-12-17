@@ -51,4 +51,4 @@ pythonコマンドを実行することでヒートマップの作成を行う�
 コマンドにオプションを付与することで特定の軌跡データからスピードや滞在情報を付与したCSVファイルを作成することができます
 
 - A（滞在なし）の軌跡から滞在情報つきcsvを作成する
-	`python main.py -c "input/raw/A/20251211_ryuki_15.csv" -a`
+	`python main.py -c "input/raw/A/input.csv" -a`
