@@ -25,7 +25,10 @@ def create_single_heatmap(
     # alphaで透明度を設定して重ねる
     # cmapには単体の量を表すのに適した 'Reds' や 'viridis' などを指定
     im = ax.imshow(
-        heatmap_data, cmap="Reds", alpha=0.6, extent=(0, MAP_WIDTH_PX, MAP_HEIGHT_PX, 0)
+        heatmap_data,
+        cmap="Reds",
+        alpha=0.6,
+        extent=(0, MAP_WIDTH_PX, MAP_HEIGHT_PX, 0),
     )
 
     # カラーバーとラベルの設定
