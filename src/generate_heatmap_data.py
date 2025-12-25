@@ -24,15 +24,11 @@ def generate_heatmap_data(
     num_grids_y,
     calc_mode="count",
     logger=None,
-    run_dir=None,
 ):
 
     if logger is None:
         logger = logging.getLogger(__name__)
     log = logger
-
-    if run_dir is None:
-        run_dir = "output"
 
     # 全軌跡の値を合算するための配列をゼロで初期化
     total_values = np.zeros((num_grids_y, num_grids_x))
@@ -95,7 +91,7 @@ def generate_heatmap_data(
             background_image=background_image,
             map_width=MAP_WIDTH_PX,
             map_height=MAP_HEIGHT_PX,
-            output_dir=run_dir,
+            output_dir="output",
         )
 
     return total_values

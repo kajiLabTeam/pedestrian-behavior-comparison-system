@@ -160,7 +160,6 @@ def main(
         num_grids_y,
         calc_mode=CALCULATION_MODE,
         logger=logger,
-        run_dir=run_dir,
     )
     logger.info("Bのヒートマップを生成します。")
     heatmap_B = generate_heatmap_data(
@@ -172,7 +171,6 @@ def main(
         num_grids_y,
         calc_mode=CALCULATION_MODE,
         logger=logger,
-        run_dir=run_dir,
     )
     ## グループAの単体ヒートマップを可視化
     create_single_heatmap(
