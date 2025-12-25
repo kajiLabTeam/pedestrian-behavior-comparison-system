@@ -25,7 +25,10 @@ def create_diff_heatmap(
     diff_data = heatmap_data_B - heatmap_data_A
 
     # 色の範囲を0を中心に左右対称にする
-    vmax = np.abs(diff_data).max()
+    with np.errstate(all="ignore"):
+        vmax = np.nanmax(np.abs(diff_data))
+    if not np.isfinite(vmax) or vmax == 0:
+        vmax = 1
     norm = Normalize(vmin=-vmax, vmax=vmax)
 
     # ヒートマップの描画

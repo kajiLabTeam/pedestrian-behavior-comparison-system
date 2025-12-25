@@ -13,6 +13,7 @@ import pandas as pd
 MAP_WIDTH_PX = 2837
 MAP_HEIGHT_PX = 3742
 GRID_SIZE_PX = 100
+EXCLUDED_CELLS = {(6, 27), (7, 27), (6, 28), (7, 28)}
 
 
 def generate_heatmap_data(
@@ -67,16 +68,19 @@ def generate_heatmap_data(
             )
             colorbar_label = "滞在時間 (秒)"
 
-        elif calc_mode == "count":
+        else:
+            # 滞在回数の計算
             calculated_values = calculate_stay_count(
                 df_transformed,
                 GRID_SIZE_PX,
             )
             colorbar_label = "滞在回数"
 
-        # 計算結果を合算する
+        # 計算結果を合算する（除外グリッドは集計しない）
         for grid_id, value in calculated_values.items():
             col, row = grid_id
+            if (col, row) in EXCLUDED_CELLS:
+                continue
             if 0 <= row < total_values.shape[0] and 0 <= col < total_values.shape[1]:
                 total_values[row, col] += value
 
