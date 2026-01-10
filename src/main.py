@@ -172,6 +172,12 @@ def main(
         calc_mode=CALCULATION_MODE,
         logger=logger,
     )
+
+    # グループ間で色スケールを統一するための共通レンジ
+    global_vmin = float(np.nanmin([np.nanmin(heatmap_A), np.nanmin(heatmap_B)]))
+    global_vmax = float(np.nanmax([np.nanmax(heatmap_A), np.nanmax(heatmap_B)]))
+    if np.isclose(global_vmin, global_vmax):
+        global_vmax = global_vmin + 1e-9
     ## グループAの単体ヒートマップを可視化
     create_single_heatmap(
         heatmap_data=heatmap_A,
@@ -179,6 +185,8 @@ def main(
         colorbar_label="グループAの滞在回数",
         logger=logger,
         run_dir=Path(run_dir, "heatmap_A.png"),
+        vmin=global_vmin,
+        vmax=global_vmax,
     )
     ## グループBの単体ヒートマップを可視化
     create_single_heatmap(
@@ -187,6 +195,8 @@ def main(
         colorbar_label="グループBの滞在回数",
         logger=logger,
         run_dir=Path(run_dir, "heatmap_B.png"),
+        vmin=global_vmin,
+        vmax=global_vmax,
     )
 
     create_diff_heatmap(
