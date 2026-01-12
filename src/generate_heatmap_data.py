@@ -33,6 +33,8 @@ def generate_heatmap_data(
     # 全軌跡の値を合算するための配列をゼロで初期化
     total_values = np.zeros((num_grids_y, num_grids_x))
     transformed_list = []
+    initial_position = transform_params.get("initial_position")
+    excluded_grids = {initial_position} if initial_position is not None else None
 
     for file_path in file_paths:
         log.info(
@@ -64,6 +66,7 @@ def generate_heatmap_data(
                 GRID_SIZE_PX,
                 MAP_WIDTH_PX,
                 MAP_HEIGHT_PX,
+                excluded_grids=excluded_grids,
             )
             colorbar_label = "滞在時間 (秒)"
 
@@ -71,6 +74,7 @@ def generate_heatmap_data(
             calculated_values = calculate_stay_count(
                 df_transformed,
                 GRID_SIZE_PX,
+                excluded_grids=excluded_grids,
             )
             colorbar_label = "滞在回数"
 
