@@ -90,12 +90,14 @@ def generate_heatmap_data(
             len(file_paths),
             file_path,
         )
-        visualize_trajectory(
-            df_list=transformed_list,
-            background_image=background_image,
-            map_width=MAP_WIDTH_PX,
-            map_height=MAP_HEIGHT_PX,
-            output_dir="output",
-        )
+
+        ## プログラム処理時間の短縮のため、軌跡の可視化はコメントアウトします
+        # visualize_trajectory(
+        #     df_list=transformed_list,
+        #     background_image=background_image,
+        #     map_width=MAP_WIDTH_PX,
+        #     map_height=MAP_HEIGHT_PX,
+        #     output_dir="output",
+        # )
 
     return total_values
