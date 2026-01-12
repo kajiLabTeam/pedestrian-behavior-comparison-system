@@ -45,4 +45,10 @@ def calculate_stay_count(df_transformed, GRID_SIZE_PX, excluded_grids=None):
     # グリッドごとの訪問回数をカウント
     stay_counts = grid_visits.groupby(["grid_col", "grid_row"]).size().to_dict()
 
+    # --- デバッグ用出力 ：各グリッドの滞在回数の集計結果【(グリッドID):滞在回数】 ---
+    # print("--- 滞在回数集計結果  ---")
+    # for (col, row), count in stay_counts.items():
+    #     print(f"({col},{row}):{count}")
+    # -----------------------------------------------
+
     return stay_counts
