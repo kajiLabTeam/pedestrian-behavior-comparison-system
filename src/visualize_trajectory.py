@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 
-def visualize_trajectory(df_list, background_image, map_width, map_height, output_dir="output"):
+def visualize_trajectory(df_list, background_image, map_width, map_height, output_dir="output", group_label=""):
     """
     複数の軌跡データフレームを背景画像上に重ねてプロットし、単一の画像として保存する。
 
@@ -14,13 +14,13 @@ def visualize_trajectory(df_list, background_image, map_width, map_height, outpu
         map_width (int): マップの幅 (ピクセル)。
         map_height (int): マップの高さ (ピクセル)。
         output_dir (str): 出力ディレクトリ。
+        group_label (str): グループラベル（'A'または'B'）。
     """
-
     # 呼び出し回数をカウントする
     if not hasattr(visualize_trajectory, "call_count"):
         visualize_trajectory.call_count = 0
     
-    suffix = "A" if visualize_trajectory.call_count % 2 == 0 else "B"
+    suffix = group_label if group_label else ("A" if visualize_trajectory.call_count % 2 == 0 else "B")
     visualize_trajectory.call_count += 1
     
 
@@ -51,7 +51,7 @@ def visualize_trajectory(df_list, background_image, map_width, map_height, outpu
                        c='red', s=70, label=f'Trajectory {i+1} (滞在中)', zorder=3, alpha=0.8)
 
     # グラフの装飾
-    ax.set_title('全軌跡のマッピング結果({suffix})', fontsize=18)
+    ax.set_title(f'全軌跡のマッピング結果 (グループ{suffix})', fontsize=18)
     ax.set_xlabel('幅[px]', fontsize=14)
     ax.set_ylabel('高さ[px]', fontsize=14)
     ax.set_xlim(0, map_width)

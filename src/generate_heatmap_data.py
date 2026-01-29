@@ -91,13 +91,4 @@ def generate_heatmap_data(
             file_path,
         )
 
-        ## プログラム処理時間の短縮のため、軌跡の可視化はコメントアウトします
-        # visualize_trajectory(
-        #     df_list=transformed_list,
-        #     background_image=background_image,
-        #     map_width=MAP_WIDTH_PX,
-        #     map_height=MAP_HEIGHT_PX,
-        #     output_dir="output",
-        # )
-
-    return total_values
+    return total_values, transformed_list
