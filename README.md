@@ -47,11 +47,16 @@ deactivate //仮想環境から抜ける
 pythonコマンドを実行することでヒートマップの作成を行うことができます.
 
 コマンドにオプションを付与することで特定の軌跡データからスピードや滞在情報を付与したCSVファイルを作成することができます
-#### 滞在情報つきcsv
+
+#### 1.実行ファイルのあるディレクトリに移動する
+python main.pyが存在するファイルパスに移動する
+`cd pedestrian-behavior-comparison-system/src`
+
+#### 2.滞在情報つきcsvの
 - A（滞在なし）の軌跡から滞在情報つきcsvを作成する
 
 	`python main.py -c "input/raw/A/input.csv" -a`
 
-#### ヒートマップ
+#### 3.ヒートマップ
 - **全て**の滞在情報つきcsvファイルから差分ヒートマップの作成
 	`python main.py -f`
