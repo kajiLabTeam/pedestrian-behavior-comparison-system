@@ -151,7 +151,7 @@ def main(
     print(len(TRAJECTORY_FILE_PATHS_B))
 
     logger.info("Aのヒートマップを生成します。")
-    heatmap_A = generate_heatmap_data(
+    heatmap_A, trajectories_A = generate_heatmap_data(
         TRAJECTORY_FILE_PATHS_A,
         TRANSFORM_PARAMS_A,
         grid_data,
@@ -162,7 +162,7 @@ def main(
         logger=logger,
     )
     logger.info("Bのヒートマップを生成します。")
-    heatmap_B = generate_heatmap_data(
+    heatmap_B, trajectories_B = generate_heatmap_data(
         TRAJECTORY_FILE_PATHS_B,
         TRANSFORM_PARAMS_B,
         grid_data,
@@ -171,6 +171,26 @@ def main(
         num_grids_y,
         calc_mode=CALCULATION_MODE,
         logger=logger,
+    )
+
+    # 軌跡の可視化
+    logger.info("グループAの軌跡を可視化します。")
+    visualize_trajectory(
+        df_list=trajectories_A,
+        background_image=background_image,
+        map_width=2837,
+        map_height=3742,
+        output_dir=run_dir,
+        group_label="A",
+    )
+    logger.info("グループBの軌跡を可視化します。")
+    visualize_trajectory(
+        df_list=trajectories_B,
+        background_image=background_image,
+        map_width=2837,
+        map_height=3742,
+        output_dir=run_dir,
+        group_label="B",
     )
 
     # グループ間で色スケールを統一するための共通レンジ
