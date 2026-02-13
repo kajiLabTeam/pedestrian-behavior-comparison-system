@@ -27,9 +27,7 @@ def visualize_trajectory(df_list, background_image, map_width, map_height, outpu
     fig, ax = plt.subplots(figsize=(map_width / 100, map_height / 100), dpi=100)
     ax.imshow(background_image, extent=[0, map_width, map_height, 0])
 
-    # 各軌跡を色分けするためのカラーマップ
-    colors = plt.cm.jet(np.linspace(0, 1, len(df_list)))
-
+    # すべての軌跡を同じ色でプロット
     for i, df in enumerate(df_list):
         if df.empty or 'x_final' not in df or 'y_final' not in df:
             print(f"有効なデータがないため、プロットをスキップします。 index={i}")
@@ -40,15 +38,13 @@ def visualize_trajectory(df_list, background_image, map_width, map_height, outpu
         stay_true = df_filtered[df_filtered['stay'] == True]
         stay_false = df_filtered[df_filtered['stay'] == False]
         
-        # 軌跡ごとに異なる色でプロット
-        color = colors[i]
-        
+        # すべての軌跡を同じ色でプロット（移動中はグレー、滞在中は赤）
         if not stay_false.empty:
             ax.scatter(stay_false['x_final'], stay_false['y_final'], 
-                       c=[color], s=50, label=f'Trajectory {i+1} (移動中)', zorder=2, alpha=0.6)
+                       c='gray', s=50, zorder=2, alpha=0.6)
         if not stay_true.empty:
             ax.scatter(stay_true['x_final'], stay_true['y_final'], 
-                       c='red', s=70, label=f'Trajectory {i+1} (滞在中)', zorder=3, alpha=0.8)
+                       c='red', s=70, zorder=3, alpha=0.8)
 
     # グラフの装飾
     ax.set_title(f'全軌跡のマッピング結果 (グループ{suffix})', fontsize=18)
@@ -57,10 +53,13 @@ def visualize_trajectory(df_list, background_image, map_width, map_height, outpu
     ax.set_xlim(0, map_width)
     ax.set_ylim(map_height, 0)
     
-    # プロットされたデータがある場合のみ凡例を表示
-    handles, labels = ax.get_legend_handles_labels()
-    if handles:
-        ax.legend(handles, labels, fontsize=12, title="凡例")
+    # 凡例を追加
+    from matplotlib.patches import Patch
+    legend_elements = [
+        Patch(facecolor='gray', alpha=0.6, label='移動中'),
+        Patch(facecolor='red', alpha=0.8, label='滞在中')
+    ]
+    ax.legend(handles=legend_elements, fontsize=12, title="状態")
 
     # レイアウトを整えて保存
     fig.tight_layout()
