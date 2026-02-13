@@ -58,13 +58,13 @@
      ↓
 [1] データの読み込みと前処理
      ↓
-[2] 軌跡データの再構成 (座標変換)
+[2] 軌跡データの座標変換
      ↓
 [3] 移動速度の計算
-     ↓
+     
 [4] 静止状態の判定
      ↓
-[5] 滞在時間の集計
+[5] 滞在回数の集計
      ↓
 [6] グリッドベースのヒートマップデータ生成
      ↓
@@ -89,50 +89,73 @@
 ### 入力データの構造
 
 ```
-data/
-├── part/          # 部分測定実験
-│   ├── 1_straight_sit_quick/
-│   ├── 2_straight_quick_sit/
-│   └── ...
-├── practice/      # 練習用測定
-├── speed/         # 歩行速度による比較実験
-│   ├── fastWalk/  # 高速歩行
-│   ├── normal/    # 通常歩行
-│   ├── run/       # 走行
-│   └── slowly/    # 低速歩行
-└── csv/           # 軌跡データ
-    ├── 0516.csv
-    ├── 0519.csv
-    └── json/      # JSON形式の軌跡データ
+input/
+├── raw/            				# 生データ
+│   ├── A/						# 通常条件 (Condition A)
+│   │   ├── 20251127_ishii_01.csv
+│   │   ├── 20251128_ishii_02.csv
+│   │   └── ...
+│   │
+│   └── B/						# 施策条件 (Condition B)
+│       ├── 20251127_ishii_01.csv
+│       ├── 20251128_ishii_02.csv
+│       └── ...
+│   
+│        						
+└── processed/      				# 前処理済みデータ（滞在判定付き軌跡）
+    ├── A/
+    │   ├── 20251127_ishii_01_processed.csv
+    │   ├── 20251128_ishii_02_processed.csv
+    │   └── ...
+    │
+    ├── B/
+        ├── 20251127_ishii_01_processed.csv
+        ├── 20251128_ishii_02_processed.csv
+        └── ...
+    
+
 ```
 
-各実験ディレクトリ配下に以下ファイルが含まれます：
-- `Accelerometer.csv` - 加速度計データ
-- `Gyroscope.csv` - ジャイロスコープデータ
-- `meta/` - メタデータ（測定条件など）
+#### raw/ディレクトリの構造
+各条件ディレクトリ（A, B等）配下には以下ファイルが含まれます：
+- `YYYYMMDD_name.csv` - 軌跡データ（時刻、x座標、y座標）
+
+#### processed/ディレクトリの構造
+rawと同じ条件別ディレクトリ構成で、前処理済みのデータを格納：
+- `YYYYMMDD_name_processed.csv` - 前処理済み軌跡データ（速度、滞在情報等を付与）
 
 ### 出力データ
-
+#### ① ヒートマップを出力
 ```
-src/
-├── output/                      # 生成されたヒートマップ
-│   ├── 20260129_111302_heatmap_all/
-│   ├── 20260129_113253_heatmap_all/
-│   └── ...
-├── output_trajectories/         # 軌跡可視化
-│   ├── demo/
-│   └── raw/
-├── grid/                        # グリッドデータと分析ノートブック
-│   ├── speedStraight.ipynb
-│   ├── trajectoryOnlyStop.ipynb
-│   └── data/                    # グリッド化済みデータ
-├── input/                       # 前処理済み入力データ
-│   ├── raw/
-│   └── processed/
-└── part/ & practice/ & speed/   # 各実験の分析結果
+src/output/
+├── 20260129_111302_heatmap_all/
+│   ├── 20260129_111302.log                # 実行ログ
+│   ├── heatmap_A.png                      # 条件Aのヒートマップ
+│   ├── heatmap_B.png                      # 条件Bのヒートマップ
+│   ├── differential_heatmap.png           # 差分ヒートマップ
+│   ├── trajectory_combined_A.png          # 条件Aの軌跡図
+│   └── trajectory_combined_B.png          # 条件Bの軌跡図
+│
+├── 20260129_113253_heatmap_all/
+│   ├── 20260129_113253.log
+│   ├── heatmap_A.png
+│   ├── heatmap_B.png
+│   ├── differential_heatmap.png
+│   ├── trajectory_combined_A.png
+│   └── trajectory_combined_B.png
+│
+└── ...
 ```
 
-
+#### ファイルの説明
+| ファイル | 説明 |
+|---------|------|
+| `.log` | 実行ログ（処理内容とタイムスタンプ） |
+| `heatmap_A.png` | 条件A（通常）における滞在ヒートマップ |
+| `heatmap_B.png` | 条件B（施策）における滞在ヒートマップ |
+| `differential_heatmap.png` | 条件AとBの差分ヒートマップ（比較用） |
+| `trajectory_combined_A.png` | 条件Aの歩行軌跡 |
+| `trajectory_combined_B.png` | 条件Bの歩行軌跡 |
 
 
 ## 実行方法
@@ -182,6 +205,8 @@ python main.py -c "<軌跡CSVファイルのパス>" -a
 
 #### 3. ヒートマップの生成
 **全ての**滞在情報付きCSVファイルから差分ヒートマップを作成します。
+(input/processed/A(:B)/20251128_ishii_01_processed.csv)
+
 
 ```bash
 # 差分ヒートマップを生成
@@ -212,7 +237,6 @@ src/output/
 
 ### speed実験（歩行速度による比較）
 歩行速度を変えた場合の歩行者行動の違いを観測
-
 - **fastWalk/**: 高速歩行時の行動
 - **normal/**: 通常速度での歩行
 - **slowly/**: ゆっくりとした歩行
@@ -222,7 +246,6 @@ src/output/
 
 ### part実験（部分的な場所での測定）
 特定の場所や状況での歩行者行動を測定
-
 - **1_straight_sit_quick/**: 直進後に素早く座る動作
 - **2_straight_quick_sit/**: 素早く直進してから座る動作
 - **3_straight_sit/**: 直進してから通常速度で座る動作
@@ -238,24 +261,6 @@ src/output/
   - `trajectories.json` - 全軌跡データ
   - `stop_trajectories.json` - 停止地点の軌跡
 
-## トラブルシューティング
-
-### よくある問題と解決方法
-
-**Q: `ModuleNotFoundError: No module named 'cv2'` が出る**
-```bash
-# opencv-pythonが正しくインストールされているか確認
-pip install --upgrade opencv-python
-```
-
-**Q: ヒートマップが生成されない**
-- 入力CSVファイルのパスを確認してください
-- ファイルが `input/raw/` ディレクトリに正しく配置されているか確認
-- 仮想環境が有効化されているか確認
-
-**Q: 座標変換がうまくいかない**
-- フロアマップの座標設定を `config/trajectory_lists.py` で確認
-- センサーの初期位置（原点）の設定を確認
 
 ## ファイル構成の詳細
 
@@ -280,21 +285,9 @@ src/
 └── create_*.py                      # その他可視化スクリプト
 ```
 
-## 今後の拡張予定
-
-- リアルタイム処理への対応
-- より高度な行動分類機械学習モデルの統合
-- 多地点同時測定への対応
-- Web UIの追加
-- 統計分析結果の自動生成
-
 ## 参考資料
 
 - 研究室ドキュメント: [docs/](docs/)
-- 実験スケジュール: [docs/scejule.md](docs/scejule.md)
-- 思考の整理: [docs/think_seiri.md](docs/think_seiri.md)
 
-## ライセンス
 
-このプロジェクトは研究所有です。
 
