@@ -178,13 +178,6 @@ pip install -r requirements.txt
 deactivate
 ```
 
-### 必要なライブラリ
-- numpy - 数値計算
-- pandas - データフレーム処理
-- matplotlib - グラフ描画
-- opencv-python (cv2) - 画像処理
-- その他（requirements.txtを参照）
-
 ### 使用できるコマンド
 
 #### 1. 実行ファイルのディレクトリに移動
@@ -207,7 +200,6 @@ python main.py -c "<軌跡CSVファイルのパス>" -a
 **全ての**滞在情報付きCSVファイルから差分ヒートマップを作成します。
 (input/processed/A(:B)/20251128_ishii_01_processed.csv)
 
-
 ```bash
 # 差分ヒートマップを生成
 python main.py -f
@@ -218,25 +210,15 @@ python main.py -f
 | オプション | 説明 |
 |----------|------|
 | `-c <path>` | 指定されたCSVファイルから滞在情報付きCSVを生成 |
-| `-a` | すべとのCSVファイルから滞在情報付きCSVを生成 |
+| `-a` | すべてのCSVファイルから滞在情報付きCSVを生成 |
 | `-f` | 全ての滞在情報付きCSVから差分ヒートマップを生成 |
 | `-h` | ヘルプを表示 |
-
-### 出力の確認
-生成されたヒートマップは以下のディレクトリに保存されます：
-
-```
-src/output/
-├── <YYYYMMdd_HHMMSS>_heatmap_all/
-│   ├── heatmap.png          # 生成されたヒートマップ画像
-│   ├── metadata.json        # メタデータ
-│   └── ...
-```
 
 ## 実験条件の説明
 
 ### speed実験（歩行速度による比較）
 歩行速度を変えた場合の歩行者行動の違いを観測
+
 - **fastWalk/**: 高速歩行時の行動
 - **normal/**: 通常速度での歩行
 - **slowly/**: ゆっくりとした歩行
@@ -252,8 +234,8 @@ src/output/
 - **4_gray_sit/**: グレーの環境での座る動作
 - **A**, **B/**: 異なるシナリオの測定
 
-### practice実験（練習・予備測定）
-- **0523/**, **0526/**, **0527/**: 日付ごとの練習測定
+### practice実験（予備測定）
+- **0523/**, **0526/**, **0527/**: 日付ごとの測定
 
 ### 軌跡データ（csv/）
 - **0516.csv**, **0519.csv**: 収集された軌跡データ
@@ -262,32 +244,6 @@ src/output/
   - `stop_trajectories.json` - 停止地点の軌跡
 
 
-## ファイル構成の詳細
-
-### srcディレクトリの構造
-```
-src/
-├── main.py                          # メインエントリーポイント
-├── config/
-│   ├── __init__.py
-│   └── trajectory_lists.py          # 実験条件と測定データのマッピング
-├── load_trajectory_data.py          # データ読み込み機能
-├── transform_trajectory.py          # 座標変換機能
-├── generate_heatmap_data.py         # ヒートマップデータ生成
-├── visualize_and_save_heatmap.py    # ヒートマップ可視化
-├── setup_grid_and_background.py     # グリッド初期化
-├── calculate_stay_time.py           # 滞在時間計算
-├── calculate_stay_count.py          # 滞在回数計算
-├── process_speed_data.py            # 速度データ処理
-├── process_thresholded_trajectory.py # 軌跡処理
-├── visualize_trajectory.py          # 軌跡可視化
-├── logging_config.py                # ロギング設定
-└── create_*.py                      # その他可視化スクリプト
-```
-
 ## 参考資料
-
-- 研究室ドキュメント: [docs/](docs/)
-
-
-
+システム実装については，esaに詳しくまとめています．．
+(URL:https://kjlb.esa.io/posts/7828)
